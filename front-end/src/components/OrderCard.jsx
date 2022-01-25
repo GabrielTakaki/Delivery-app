@@ -9,17 +9,20 @@ function OrderCard({
   itemTotal,
   remove,
   index,
+  qtd,
 }) {
   return (
     <main>
       <table>
         <tbody>
-          <tr>Item</tr>
-          <tr>Descrição</tr>
-          <tr>Quantidade</tr>
-          <tr>Valor Unitário</tr>
-          <tr>Sub-total</tr>
-          <tr>Remover item</tr>
+          <tr>
+            <th>Item</th>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+            <th>Valor Unitário</th>
+            <th>Sub-total</th>
+            <th>Remover item</th>
+          </tr>
           <tr>
             <td
               data-testid={ `
@@ -71,6 +74,7 @@ OrderCard.propTypes = {
   itemTotal: number,
   remove: string,
   index: string,
+  qtd: number,
 }.isRequired;
 
 export default OrderCard;
