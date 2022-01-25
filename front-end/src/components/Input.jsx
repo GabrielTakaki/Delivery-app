@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { LabelRegister } from '../styles/mainRegister';
 
-function Input({ text, placeholder, type, onChange, value, htmlFor, name }) {
+function Input({ text, placeholder, type, onChange, value, htmlFor, name, testId }) {
   return (
     <LabelRegister htmlFor={ htmlFor }>
       { text }
@@ -12,6 +12,7 @@ function Input({ text, placeholder, type, onChange, value, htmlFor, name }) {
         onChange={ onChange }
         value={ value }
         name={ name }
+        data-testid={ testId }
       />
     </LabelRegister>
   );
@@ -25,6 +26,7 @@ Input.propTypes = {
   value: PropTypes.string.isRequired,
   htmlFor: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  testId: PropTypes.string.isRequired,
 };
 
 export default Input;

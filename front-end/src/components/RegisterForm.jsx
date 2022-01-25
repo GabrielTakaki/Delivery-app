@@ -47,7 +47,7 @@ function RegisterForm() {
           text="Nome"
           placeholder="Seu nome"
           type="text"
-          data-testid="common_register__input-name"
+          testId="common_register__input-name"
           onChange={ handleChange }
           value={ registerForm.name }
           name="name"
@@ -57,7 +57,7 @@ function RegisterForm() {
           text="Email"
           placeholder="seu-email@site.com.br"
           type="email"
-          data-testid="common_register__input-email"
+          testId="common_register__input-email"
           onChange={ handleChange }
           value={ registerForm.email }
           name="email"
@@ -67,7 +67,7 @@ function RegisterForm() {
           text="Senha"
           placeholder="********"
           type="password"
-          data-testid="common_register__input-password"
+          testId="common_register__input-password"
           onChange={ handleChange }
           value={ registerForm.password }
           name="password"
