@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { LabelRegister } from '../styles/mainRegister';
 
 function Input({ text, placeholder, type, onChange, value, htmlFor, name }) {
   return (
-    <label htmlFor={ htmlFor }>
+    <LabelRegister htmlFor={ htmlFor }>
       { text }
       <input
         placeholder={ placeholder }
@@ -12,7 +13,7 @@ function Input({ text, placeholder, type, onChange, value, htmlFor, name }) {
         value={ value }
         name={ name }
       />
-    </label>
+    </LabelRegister>
   );
 }
 

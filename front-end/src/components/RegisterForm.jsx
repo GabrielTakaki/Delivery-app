@@ -21,7 +21,6 @@ function RegisterForm() {
       && password.length >= passwordMinLength
       && name.length >= nameMinLength
     );
-    console.log(valid);
 
     if (valid) {
       setDisable(false);
@@ -41,6 +40,7 @@ function RegisterForm() {
           onChange={ handleChange }
           value={ registerForm.name }
           name="name"
+          htmlFor="name"
         />
         <Input
           text="Email"
@@ -50,6 +50,7 @@ function RegisterForm() {
           onChange={ handleChange }
           value={ registerForm.email }
           name="email"
+          htmlFor="email"
         />
         <Input
           text="Senha"
@@ -59,6 +60,7 @@ function RegisterForm() {
           onChange={ handleChange }
           value={ registerForm.password }
           name="password"
+          htmlFor="password"
         />
         <button
           type="button"

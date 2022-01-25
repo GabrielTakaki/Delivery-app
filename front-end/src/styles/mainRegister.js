@@ -17,3 +17,11 @@ export const FormRegister = styled.main`
   align-items: center;
   padding: 20px;
 `;
+
+export const LabelRegister = styled.label`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  align-items: start;
+  background-color: green;
+`;
