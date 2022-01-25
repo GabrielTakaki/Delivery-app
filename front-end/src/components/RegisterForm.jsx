@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import md5 from 'md5';
 import { useNavigate } from 'react-router-dom';
 import Input from './Input';
 import { FormRegister } from '../styles/mainRegister';
