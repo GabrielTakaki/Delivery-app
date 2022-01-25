@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
+// import md5 from 'md5';
+import { useNavigate } from 'react-router-dom';
 import Input from './Input';
 import { FormRegister } from '../styles/mainRegister';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function RegisterForm() {
+  const [user, setUser] = useLocalStorage('userName', '');
   const [registerForm, setRegisterForm] = useState({ email: '', password: '', name: '' });
   const [disabled, setDisable] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -14,20 +19,26 @@ function RegisterForm() {
   useEffect(() => {
     const { email, password, name } = registerForm;
     const passwordMinLength = 6;
-    const nameMinLength = 12;
+    const userMinLength = 12;
     const Patt = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
     const valid = (
       Patt.test(email)
       && password.length >= passwordMinLength
-      && name.length >= nameMinLength
+      && name.length >= userMinLength
     );
-
     if (valid) {
       setDisable(false);
     } else {
       setDisable(true);
     }
-  }, [registerForm]);
+  }, [registerForm, user]);
+
+  const submitRegister = (e) => {
+    e.preventDefault();
+    navigate('/login');
+    setUser(registerForm.name);
+    setRegisterForm({ email: '', password: '', name: '' });
+  };
   return (
     <>
       <FormRegister action="submit">
@@ -66,6 +77,7 @@ function RegisterForm() {
           type="button"
           data-testid="common_register__button-register"
           disabled={ disabled }
+          onClick={ (e) => submitRegister(e) }
         >
           Cadastrar
         </button>
