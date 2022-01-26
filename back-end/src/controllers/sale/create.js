@@ -1,8 +1,22 @@
-const { NOT_IMPLEMENTED } = require('http-status-codes').StatusCodes;
+const { CREATED } = require('http-status-codes').StatusCodes;
 
-module.exports = (req, res, next) => {
+const { create } = require('../../services/sale');
+
+module.exports = async (req, res, next) => {
   try {
-    res.status(NOT_IMPLEMENTED).end();
+    const { userEmail,
+      sellerEmail,
+      totalPrice,
+      deliveryAddress,
+      deliveryNumber,
+      products } = req.body;
+    const newSaleId = await create({ userEmail,
+      sellerEmail,
+      totalPrice,
+      deliveryAddress,
+      deliveryNumber,
+      products });
+    res.status(CREATED).json({ newSaleId });
   } catch (err) {
     next(err);
   }

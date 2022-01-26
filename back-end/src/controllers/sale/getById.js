@@ -1,8 +1,12 @@
-const { NOT_IMPLEMENTED } = require('http-status-codes').StatusCodes;
+const { OK } = require('http-status-codes').StatusCodes;
 
-module.exports = (req, res, next) => {
+const { getById } = require('../../services/sale');
+
+module.exports = async (req, res, next) => {
   try {
-    res.status(NOT_IMPLEMENTED).end();
+    const { id = 16 } = req.params;
+    const sale = await getById(id);
+    res.status(OK).json(sale);
   } catch (err) {
     next(err);
   }

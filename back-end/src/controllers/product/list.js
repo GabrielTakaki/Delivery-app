@@ -1,8 +1,11 @@
-const { NOT_IMPLEMENTED } = require('http-status-codes').StatusCodes;
+const { OK } = require('http-status-codes').StatusCodes;
 
-module.exports = (req, res, next) => {
+const { product } = require('../../database/models');
+
+module.exports = async (req, res, next) => {
   try {
-    res.status(NOT_IMPLEMENTED).end();
+    const products = await product.findAll();
+    res.status(OK).json(products);
   } catch (err) {
     next(err);
   }

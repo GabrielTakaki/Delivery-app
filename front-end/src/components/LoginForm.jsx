@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Jwt from 'jsonwebtoken';
+import Context from '../context/Context';
 
 function LoginForm() {
   const [disable, setDisable] = useState(true);
+  const [hidden, setHidden] = useState(true);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const { setUser, loginSubmit } = useContext(Context);
   const navigate = useNavigate();
+
+  /* Direcionamento para o registro  */
   const goRegister = () => navigate('/register');
 
+  /* salva mudanças do input no estado local */
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setLoginForm({ ...loginForm, [name]: value });
   };
 
+  /* A cada mudança nos inputs e feito a validação para liberação do butão */
   useEffect(() => {
     const { email, password } = loginForm;
     const minLength = 6;
     const Patt = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
     const valid = (Patt.test(email) && password.length >= minLength);
-    console.log(valid);
 
     if (valid) {
       setDisable(false);
@@ -25,6 +32,34 @@ function LoginForm() {
       setDisable(true);
     }
   }, [loginForm]);
+
+  /* Função responsável pelo login do user */
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const { data } = await loginSubmit(loginForm);
+
+      if (data.token) {
+        const { token } = data;
+        const { email, name, role } = Jwt.decode(token);
+        const user = { email, name, role, token };
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        setUser(user);
+
+        const paths = {
+          customer: '/customer/products',
+          seller: '/seller/orders',
+          administrator: '/admin/manage',
+        };
+        navigate(paths[role]);
+      }
+    } catch (error) {
+      console.log(error);
+      setHidden(false);
+    }
+  };
 
   return (
     <div>
@@ -58,6 +93,7 @@ function LoginForm() {
           type="submit"
           data-testid="common_login__button-login"
           disabled={ disable }
+          onClick={ handleSubmit }
         >
           Login
         </button>
@@ -73,9 +109,10 @@ function LoginForm() {
       </form>
 
       <span
+        hidden={ hidden }
         data-testid="common_login__element-invalid-email"
       >
-        { null }
+        Email não cadastrado/errado.
       </span>
     </div>
   );
