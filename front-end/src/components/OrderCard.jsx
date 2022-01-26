@@ -1,68 +1,77 @@
 import React from 'react';
 import { string, number } from 'prop-types';
+import { Table, TbodyTable, TrTable, MainTable, TotalTable } from '../styles/table';
 
 function OrderCard({
   total,
   item,
   description,
   itemPrice,
+  dataIdItem,
+  dataIdDescription,
+  dataIdItemPrice,
+  dataIdSubTotal,
+  dataIdQtd,
+  dataIdRemove,
   itemTotal,
   remove,
-  index,
+  dataIdTotal,
   qtd,
+  displayTotal,
+  displayRemove,
 }) {
   return (
-    <main>
-      <table>
-        <tbody>
+    <MainTable>
+      <Table>
+        <TbodyTable>
           <tr>
             <th>Item</th>
             <th>Descrição</th>
             <th>Quantidade</th>
             <th>Valor Unitário</th>
             <th>Sub-total</th>
-            <th>Remover item</th>
+            {
+              displayRemove && (
+                <th>Remover</th>
+              )
+            }
           </tr>
-          <tr>
-            <td
-              data-testid={ `
-                customer_checkout__element-order-table-item-number-${index}
-              ` }
-            >
+          <TrTable>
+            <td data-testid={ dataIdItem }>
               { item }
             </td>
-            <td
-              data-testid={ `customer_checkout__element-order-table-name-${index}` }
-            >
+            <td data-testid={ dataIdDescription }>
               { description }
             </td>
-            <td
-              data-testid={ `customer_checkout__element-order-table-quantity-${index}` }
-            >
+            <td data-testid={ dataIdQtd }>
               { qtd }
             </td>
-            <td
-              data-testid={ `customer_checkout__element-order-table-unit-price-${index}` }
-            >
+            <td data-testid={ dataIdItemPrice }>
               { itemPrice }
             </td>
-            <td
-              data-testid={ `customer_checkout__element-order-table-sub-total-${index}` }
-            >
+            <td data-testid={ dataIdSubTotal }>
               { itemTotal }
             </td>
-            <td
-              data-testid={ `customer_checkout__element-order-table-remove-${index}` }
-            >
-              { remove }
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <h3 data-testid="customer_checkout__element-order-total-price">
-        { `Total: R$ ${total}` }
-      </h3>
-    </main>
+            {
+              displayRemove && (
+                <td
+                  data-testid={ dataIdRemove }
+                >
+                  { remove }
+                </td>
+              )
+            }
+          </TrTable>
+        </TbodyTable>
+      </Table>
+      {
+        displayTotal && (
+          <TotalTable data-testid={ dataIdTotal }>
+            { `Total: R$ ${total}` }
+          </TotalTable>
+        )
+      }
+    </MainTable>
   );
 }
 

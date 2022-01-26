@@ -1,6 +1,6 @@
 import React from 'react';
-import { ContainerRegister } from '../styles/mainRegister';
-import RegisterForm from '../components/RegisterForm';
+import { ContainerRegister } from '../../styles/mainRegister';
+import RegisterForm from '../../components/RegisterForm';
 
 function Register() {
   return (

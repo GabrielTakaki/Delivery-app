@@ -1,6 +1,6 @@
 import React from 'react';
-import LoginForm from '../components/LoginForm';
-import ContainerLogin from '../styles/mainLogin';
+import LoginForm from '../../components/LoginForm';
+import ContainerLogin from '../../styles/mainLogin';
 
 function Login() {
   return (

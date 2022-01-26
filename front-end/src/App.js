@@ -2,9 +2,9 @@ import './App.css';
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Checkout from './pages/Checkout';
+import Login from './pages/common/Login';
+import Register from './pages/common/Register';
+import Checkout from './pages/client/Checkout';
 
 function App() {
   return (
