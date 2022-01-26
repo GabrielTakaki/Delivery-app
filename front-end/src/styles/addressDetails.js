@@ -27,6 +27,7 @@ export const LabelAddress = styled.label`
 export const InputAddress = styled.input`
   height: 30px;
   margin: 5px 0;
+  padding-left: 10px;
 `;
 
 export const SelectForm = styled.select`
@@ -44,4 +45,11 @@ export const ButtonAddress = styled.button`
   border: none;
   border-radius: 15px;
   align-self: center;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 120, 0, 0.8);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
 `;
