@@ -21,6 +21,7 @@ function OrderCard({
   displayTotal,
   displayRemove,
 }) {
+  if (total === undefined) total = 0;
   return (
     <MainTable>
       <Table>
