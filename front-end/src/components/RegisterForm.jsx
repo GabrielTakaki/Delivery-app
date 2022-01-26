@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
 import Input from './Input';
 import { FormRegister } from '../styles/mainRegister';
 import useLocalStorage from '../hooks/useLocalStorage';
+import Context from '../context/Context';
 
 function RegisterForm() {
+  const { endpoints, fetchApi } = useContext(Context);
   const [user, setUser] = useLocalStorage('userName', '');
+  const [, setUserInStorage] = useLocalStorage('user', '');
+  const [, setToken] = useLocalStorage('token', '');
   const [registerForm, setRegisterForm] = useState({ email: '', password: '', name: '' });
   const [disabled, setDisable] = useState(false);
+  const [hiddenInvalidEmail, setHiddenInvalidEmail] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
@@ -32,11 +38,26 @@ function RegisterForm() {
     }
   }, [registerForm, user]);
 
-  const submitRegister = (e) => {
+  const submitRegister = async (e) => {
     e.preventDefault();
-    navigate('/login');
-    setUser(registerForm.name);
-    setRegisterForm({ email: '', password: '', name: '' });
+    try {
+      const { data } = await fetchApi(
+        endpoints.user.register,
+        registerForm,
+      );
+
+      const { email, name, role } = jwt.decode(data.token);
+
+      setUserInStorage({ email, name, role, token: data.token });
+      setToken(data.token);
+
+      navigate('/customer/products');
+      setUser(registerForm.name);
+      setRegisterForm({ email: '', password: '', name: '' });
+    } catch (err) {
+      const CONFLICT = 409;
+      if (err.response.status === CONFLICT) setHiddenInvalidEmail(true);
+    }
   };
   return (
     <>
@@ -81,11 +102,13 @@ function RegisterForm() {
           Cadastrar
         </button>
       </FormRegister>
-      <span
-        data-testid="common_register__element-invalid_register"
-      >
-        { null }
-      </span>
+      { hiddenInvalidEmail && (
+        <span
+          data-testid="common_register__element-invalid_register"
+        >
+          Email já registrado!
+        </span>
+      )}
     </>
   );
 }
