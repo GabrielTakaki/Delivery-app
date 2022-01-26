@@ -9,6 +9,15 @@ export const AddressContainer = styled.section`
 
 export const FormAddress = styled.form`
   display: flex;
+
+  @media (max-width: 967px) {
+    justify-content: space-around;
+  }
+
+  @media (max-width: 450px) {
+    width: 100%;
+    flex-direction: column;
+  }
 `;
 
 export const LabelAddress = styled.label`
@@ -21,6 +30,32 @@ export const LabelAddress = styled.label`
   }
   &:nth-child(3) {
     width: 20%;
+  }
+  @media (max-width: 967px) {
+    width: 100%;
+    justify-content: center;
+    &:nth-child(1) {
+      width: 20%;
+    }
+    &:nth-child(2) {
+      width: 40%;
+    }
+    &:nth-child(3) {
+      width: 20%;
+    }
+  }
+
+  @media (max-width: 450px) {
+    width: 100%;
+    &:nth-child(1) {
+      width: 90%;
+    }
+    &:nth-child(2) {
+      width: 90%;
+    }
+    &:nth-child(3) {
+      width: 90%;
+    }
   }
 `;
 
