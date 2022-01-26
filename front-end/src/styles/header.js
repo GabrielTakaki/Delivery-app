@@ -30,12 +30,12 @@ export const NavHeader = styled.nav`
   display: flex;
   // flex-direction: row;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   justify-content: space-between;
 `;
 
 export const HeaderComponent = styled.header`
-  width: 100%;
+  width: 100vw;
   margin: 0;
   padding: 0;
   display: flex;

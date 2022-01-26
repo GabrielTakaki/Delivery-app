@@ -23,5 +23,4 @@ export const LabelRegister = styled.label`
   flex-direction: column;
   padding: 10px;
   align-items: start;
-  background-color: green;
 `;

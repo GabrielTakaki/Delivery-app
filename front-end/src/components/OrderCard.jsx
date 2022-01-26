@@ -1,6 +1,7 @@
 import React from 'react';
 import { string, number } from 'prop-types';
-import { Table, TbodyTable, TrTable, MainTable, TotalTable } from '../styles/table';
+import { Table, TbodyTable, TrTable, MainTable, TotalTable, TdTable, ThTable }
+  from '../styles/table';
 
 function OrderCard({
   total,
@@ -25,40 +26,40 @@ function OrderCard({
       <Table>
         <TbodyTable>
           <tr>
-            <th>Item</th>
-            <th>Descrição</th>
-            <th>Quantidade</th>
-            <th>Valor Unitário</th>
-            <th>Sub-total</th>
+            <ThTable>Item</ThTable>
+            <ThTable>Descrição</ThTable>
+            <ThTable>Quantidade</ThTable>
+            <ThTable>Valor Unitário</ThTable>
+            <ThTable>Sub-total</ThTable>
             {
               displayRemove && (
-                <th>Remover</th>
+                <ThTable>Remover</ThTable>
               )
             }
           </tr>
           <TrTable>
-            <td data-testid={ dataIdItem }>
+            <TdTable data-testid={ dataIdItem }>
               { item }
-            </td>
-            <td data-testid={ dataIdDescription }>
+            </TdTable>
+            <TdTable data-testid={ dataIdDescription }>
               { description }
-            </td>
-            <td data-testid={ dataIdQtd }>
+            </TdTable>
+            <TdTable data-testid={ dataIdQtd }>
               { qtd }
-            </td>
-            <td data-testid={ dataIdItemPrice }>
+            </TdTable>
+            <TdTable data-testid={ dataIdItemPrice }>
               { itemPrice }
-            </td>
-            <td data-testid={ dataIdSubTotal }>
+            </TdTable>
+            <TdTable data-testid={ dataIdSubTotal }>
               { itemTotal }
-            </td>
+            </TdTable>
             {
               displayRemove && (
-                <td
+                <TdTable
                   data-testid={ dataIdRemove }
                 >
                   { remove }
-                </td>
+                </TdTable>
               )
             }
           </TrTable>
