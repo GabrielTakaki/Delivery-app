@@ -8,8 +8,9 @@ export const MainTable = styled.main`
 export const Table = styled.table`
   width: 100%;
   margin-top: 10px;
-  border-collapse: collapse;
-  border-spacing: 10px;
+  border-collapse: separate;
+  border-spacing: 0 5px;
+  border: 10px solid transparent;
 `;
 
 export const TbodyTable = styled.tbody`
@@ -25,7 +26,9 @@ export const TdTable = styled.td`
   font-size: calc(0.5em + 0.5vw);
   background-color: green;
   color: white;
+  border-bottom: 2px solid #000;
   &:nth-child(6) {
+    width: 10%;
     background-color: red;
     cursor: pointer;
     border-radius: 0 30px 30px 0;
@@ -43,6 +46,7 @@ export const TdTable = styled.td`
     width: 40%;
   }
   &:nth-child(3) {
+    width: 5%;
     background-color: green;
   }
 `;

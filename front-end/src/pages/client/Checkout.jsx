@@ -1,29 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Header from '../../components/Header';
 import OrderCard from '../../components/OrderCard';
 import AddressDetails from '../../components/AddressDetails';
 
 function Checkout() {
+  const [api, setApi] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:8080/product/list',
+        { headers: { Authorization: token },
+        });
+      // const json = await response.json();
+      return setApi(response.data);
+      // console.log(response.data);
+    };
+    fetchData();
+  }, []);
+  // console.log(api);
   return (
     <>
       <Header />
       <h3 style={ { marginLeft: '10px' } }>Finalizar Pedido</h3>
       <OrderCard
-        dataIdItem={ `customer_checkout__element-order-table-item-number-${'index'}` }
-        dataIdDescription={ `customer_checkout__element-order-table-name-${'index'}` }
-        dataIdQtd={ `customer_checkout__element-order-table-quantity-${'index'}` }
-        dataIdItemPrice={ `customer_checkout__element-order-table-unit-price-${'index'}` }
-        dataIdSubTotal={ `customer_checkout__element-order-table-sub-total-${'index'}` }
-        dataIdRemove={ `customer_checkout__element-order-table-remove-${'index'}` }
-        displayTotal="true"
-        displayRemove="true"
-        dataIdTotal="customer_checkout__element-order-total-price"
-        item="1"
-        description="Produto 1"
+        cartItem={ api }
+        dataIdItem="checkout"
         qtd="1"
-        itemPrice="R$ 100,00"
-        itemTotal="R$ 100,00"
+        subTotal="R$ 100,00"
         remove="Remover"
+        displayRemove="true"
+        displayTotal="true"
       />
       <h3 style={ { marginLeft: '10px' } }>Endereço de entrega</h3>
       <AddressDetails />

@@ -1,22 +1,14 @@
 import React from 'react';
-import { string, number } from 'prop-types';
+import { string, number, arrayOf } from 'prop-types';
 import { Table, TbodyTable, TrTable, MainTable, TotalTable, TdTable, ThTable }
   from '../styles/table';
 
 function OrderCard({
   total,
-  item,
-  description,
-  itemPrice,
   dataIdItem,
-  dataIdDescription,
-  dataIdItemPrice,
-  dataIdSubTotal,
-  dataIdQtd,
-  dataIdRemove,
-  itemTotal,
+  cartItem,
+  subTotal,
   remove,
-  dataIdTotal,
   qtd,
   displayTotal,
   displayRemove,
@@ -38,37 +30,63 @@ function OrderCard({
               )
             }
           </tr>
-          <TrTable>
-            <TdTable data-testid={ dataIdItem }>
-              { item }
-            </TdTable>
-            <TdTable data-testid={ dataIdDescription }>
-              { description }
-            </TdTable>
-            <TdTable data-testid={ dataIdQtd }>
-              { qtd }
-            </TdTable>
-            <TdTable data-testid={ dataIdItemPrice }>
-              { itemPrice }
-            </TdTable>
-            <TdTable data-testid={ dataIdSubTotal }>
-              { itemTotal }
-            </TdTable>
-            {
-              displayRemove && (
+          {
+            cartItem && cartItem.map((cart, index) => (
+              <TrTable key={ cart.id }>
                 <TdTable
-                  data-testid={ dataIdRemove }
+                  data-testid={
+                    `customer_${dataIdItem}__element-order-table-item-number-${index}`
+                  }
                 >
-                  { remove }
+                  { cart.id }
                 </TdTable>
-              )
-            }
-          </TrTable>
+                <TdTable
+                  data-testid={
+                    `customer_${dataIdItem}__element-order-table-name-${index}`
+                  }
+                >
+                  { cart.name }
+                </TdTable>
+                <TdTable
+                  data-testid={
+                    `customer_${dataIdItem}__element-order-table-quantity-${index}`
+                  }
+                >
+                  { qtd }
+                </TdTable>
+                <TdTable
+                  data-testid={
+                    `customer_${dataIdItem}__element-order-table-unit-price-${index}`
+                  }
+                >
+                  { cart.price }
+                </TdTable>
+                <TdTable
+                  data-testid={
+                    `customer_${dataIdItem}__element-order-table-sub-total-${'index'}`
+                  }
+                >
+                  { subTotal }
+                </TdTable>
+                {
+                  displayRemove && (
+                    <TdTable
+                      data-testid={
+                        `customer_${dataIdItem}__element-order-table-remove-${index}`
+                      }
+                    >
+                      { remove }
+                    </TdTable>
+                  )
+                }
+              </TrTable>
+            ))
+          }
         </TbodyTable>
       </Table>
       {
         displayTotal && (
-          <TotalTable data-testid={ dataIdTotal }>
+          <TotalTable data-testid={ `customer_${dataIdItem}__element-order-total-price` }>
             { `Total: R$ ${total}` }
           </TotalTable>
         )
@@ -86,6 +104,7 @@ OrderCard.propTypes = {
   remove: string,
   index: string,
   qtd: number,
+  cartItem: arrayOf(string),
 }.isRequired;
 
 export default OrderCard;
