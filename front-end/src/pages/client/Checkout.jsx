@@ -9,16 +9,13 @@ function Checkout() {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/product/list',
+      const response = await axios.get('http://localhost:3001/product/list',
         { headers: { Authorization: token },
         });
-      // const json = await response.json();
       return setApi(response.data);
-      // console.log(response.data);
     };
     fetchData();
   }, []);
-  // console.log(api);
   return (
     <>
       <Header />
