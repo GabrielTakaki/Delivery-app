@@ -20,16 +20,27 @@ const endpoints = {
     getById: 'http://localhost:3001/sale/',
   },
 };
+
 /* Provider do Context */
 function Provider({ children }) {
   const [user, setUser] = useState({});
   console.log(user);
+  const [authToken, setAuthToken] = useState(localStorage.getItem('token') || '');
 
   const loginSubmit = (loginForm) => axios.post(endpoints.user.login, loginForm);
   const fetchApi = (endpoint, body) => axios.post(endpoint, body);
 
   return (
-    <Context.Provider value={ { setUser, loginSubmit, endpoints, fetchApi } }>
+    <Context.Provider
+      value={ {
+        setUser,
+        authToken,
+        setAuthToken,
+        loginSubmit,
+        endpoints,
+        fetchApi,
+      } }
+    >
       {children}
     </Context.Provider>
   );

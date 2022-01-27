@@ -63,7 +63,7 @@ function OrderCard({
                 </TdTable>
                 <TdTable
                   data-testid={
-                    `customer_${dataIdItem}__element-order-table-sub-total-${'index'}`
+                    `customer_${dataIdItem}__element-order-table-sub-total-${index}`
                   }
                 >
                   { subTotal }

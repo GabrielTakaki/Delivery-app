@@ -7,7 +7,7 @@ function LoginForm() {
   const [disable, setDisable] = useState(true);
   const [hidden, setHidden] = useState(true);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-  const { setUser, loginSubmit } = useContext(Context);
+  const { setUser, loginSubmit, setAuthToken, authToken } = useContext(Context);
   const navigate = useNavigate();
 
   /* Direcionamento para o registro  */
@@ -45,6 +45,7 @@ function LoginForm() {
         const { email, name, role } = Jwt.decode(token);
         const user = { email, name, role, token };
         localStorage.setItem('token', token);
+        setAuthToken(token);
         localStorage.setItem('user', JSON.stringify(user));
         setUser(user);
 
@@ -60,7 +61,7 @@ function LoginForm() {
       setHidden(false);
     }
   };
-
+  console.log(authToken);
   return (
     <div>
       <form action="submit">

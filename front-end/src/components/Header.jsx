@@ -6,7 +6,7 @@ import {
   NavHeader } from '../styles/header';
 
 function Header() {
-  const localStorageUser = JSON.parse(localStorage.getItem('userName'));
+  const { name } = JSON.parse(localStorage.getItem('user'));
   return (
     <HeaderComponent>
       <NavHeader>
@@ -29,7 +29,7 @@ function Header() {
             type="button"
             data-testid="customer_products__element-navbar-user-full-name"
           >
-            { localStorageUser }
+            { name }
           </ButtonHeader>
           <ButtonHeader
             type="button"

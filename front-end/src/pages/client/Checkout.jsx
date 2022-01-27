@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import Context from '../../context/Context';
 import Header from '../../components/Header';
 import OrderCard from '../../components/OrderCard';
 import AddressDetails from '../../components/AddressDetails';
 
 function Checkout() {
+  const { email } = JSON.parse(localStorage.getItem('user'));
+  console.log(email);
+  const { authToken } = useContext(Context);
   const [api, setApi] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem('token');
       const response = await axios.get('http://localhost:3001/product/list',
-        { headers: { Authorization: token },
+        { headers: { Authorization: authToken },
         });
       return setApi(response.data);
     };

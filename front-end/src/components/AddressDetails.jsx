@@ -1,15 +1,19 @@
 import React from 'react';
+import { string, func } from 'prop-types';
 import
 { FormAddress, LabelAddress, AddressContainer, InputAddress, SelectForm, ButtonAddress }
   from '../styles/addressDetails';
 
-function AddressDetails() {
+function AddressDetails({ addressValue, onChangeAddress, numberValue, onChangeNumber }) {
   return (
     <AddressContainer>
       <FormAddress action="submit">
         <LabelAddress htmlFor="select">
           <span>Vendedor(a): </span>
-          <SelectForm name="seller" data-testid="customer_checkout__select-seller">
+          <SelectForm
+            name="seller"
+            data-testid="customer_checkout__select-seller"
+          >
             <option>Selecione o vendedor</option>
             <option>Fulana Pereira</option>
           </SelectForm>
@@ -17,13 +21,19 @@ function AddressDetails() {
         <LabelAddress htmlFor="address">
           <span>Endereço: </span>
           <InputAddress
+            value={ addressValue }
+            name="deliveryAddress"
+            onChange={ onChangeAddress }
             data-testid="customer_checkout__input-address"
             placeholder="Travessa Terceira da Castanheira, Bairro Muruci"
           />
         </LabelAddress>
         <LabelAddress htmlFor="number">
-          <span>Numero: </span>
+          <span>Número: </span>
           <InputAddress
+            value={ numberValue }
+            name="deliveryNumber"
+            onChange={ onChangeNumber }
             data-testid="customer_checkout__input-addressNumber"
             text="Número"
             placeholder="198"
@@ -36,5 +46,12 @@ function AddressDetails() {
     </AddressContainer>
   );
 }
+
+AddressDetails.propTypes = {
+  addressValue: string,
+  onChangeAddress: func,
+  numberValue: string,
+  onChangeNumber: func,
+}.isRequired;
 
 export default AddressDetails;
