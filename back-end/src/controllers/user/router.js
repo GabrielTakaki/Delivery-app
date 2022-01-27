@@ -17,6 +17,7 @@ router.post(
 
 router.use(auth);
 router.get('/list', require('./list'));
+router.get('/seller/list', require('./listSellers'));
 router.delete('/delete', require('./delete'));
 
 module.exports = router;

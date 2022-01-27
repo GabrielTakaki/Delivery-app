@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import Context from '../../context/Context';
 import Header from '../../components/Header';
-import OrderCard from '../../components/OrderCard';
+import ProductTable from '../../components/ProductTable';
 import AddressDetails from '../../components/AddressDetails';
 
 function Checkout() {
@@ -23,7 +23,7 @@ function Checkout() {
     <>
       <Header />
       <h3 style={ { marginLeft: '10px' } }>Finalizar Pedido</h3>
-      <OrderCard
+      <ProductTable
         cartItem={ api }
         dataIdItem="checkout"
         qtd="1"

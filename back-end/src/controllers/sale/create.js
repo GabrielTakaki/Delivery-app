@@ -1,6 +1,6 @@
 const { CREATED } = require('http-status-codes').StatusCodes;
 
-const { create } = require('../../services/sale');
+const { sale } = require('../../services');
 
 module.exports = async (req, res, next) => {
   try {
@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
       deliveryAddress,
       deliveryNumber,
       products } = req.body;
-    const newSaleId = await create({ userEmail,
+    const newSaleId = await sale.create({ userEmail,
       sellerEmail,
       totalPrice,
       deliveryAddress,
