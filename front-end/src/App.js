@@ -9,6 +9,7 @@ import Checkout from './pages/client/Checkout';
 import Orders from './pages/client/Orders';
 
 import { CustomerProvider } from './context/Customer';
+import { SellerProvider } from './context/Seller';
 
 function App() {
   return (
@@ -21,9 +22,9 @@ function App() {
         exact
         path="/customer/checkout"
         element={
-          <CustomerProvider>
+          <SellerProvider>
             <Checkout />
-          </CustomerProvider>
+          </SellerProvider>
         }
       />
       <Route

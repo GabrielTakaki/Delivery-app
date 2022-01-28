@@ -1,17 +1,16 @@
 import React, { useContext, useEffect } from 'react';
 import { string, func } from 'prop-types';
-import Context from '../context/Customer';
+import Context from '../context/Seller';
 import
 { FormAddress, LabelAddress, AddressContainer, InputAddress, SelectForm, ButtonAddress }
   from '../styles/addressDetails';
 
 function AddressDetails({ addressValue, onChangeAddress, numberValue, onChangeNumber }) {
-  const { endpoints, orders, setOrders, getOrders } = useContext(Context.Context);
+  const { endpoints, seller, setSeller, getSellers } = useContext(Context.Context);
   useEffect(() => {
-    getOrders();
-  }, [endpoints, setOrders, getOrders]);
+    getSellers();
+  }, [endpoints, setSeller, getSellers]);
 
-  console.log(orders);
   return (
     <AddressContainer>
       <FormAddress action="submit">
@@ -21,8 +20,17 @@ function AddressDetails({ addressValue, onChangeAddress, numberValue, onChangeNu
             name="seller"
             data-testid="customer_checkout__select-seller"
           >
-            <option>Selecione o vendedor</option>
-            <option>Fulana Pereira</option>
+            <option value="">Selecione um vendedor</option>
+            {
+              seller.map((sell) => (
+                <option
+                  key={ sell.id }
+                  value={ sell.id }
+                >
+                  { sell.email }
+                </option>
+              ))
+            }
           </SelectForm>
         </LabelAddress>
         <LabelAddress htmlFor="address">

@@ -4,10 +4,8 @@ import { node } from 'prop-types';
 import Context from './Context';
 
 const endpoints = {
-  user: {
+  seller: {
     listSeller: 'http://localhost:3001/user/seller/list',
-    list: 'http://localhost:3001/user/list',
-    delete: 'http://localhost:3001/user/delete',
   },
 };
 
@@ -17,9 +15,8 @@ function Provider({ children }) {
   const [getSellers] = useState(() => async () => {
     const token = localStorage.getItem('token');
     const result = await axios
-      .get(endpoints.user.listSeller, { headers: { Authorization: token } });
-    setSeller(result.data);
-    console.log(result.data);
+      .get(endpoints.seller.listSeller, { headers: { Authorization: token } });
+    setSeller(result.data.users);
   });
 
   return (
