@@ -19,14 +19,13 @@ function Checkout() {
       const { data } = await sellSubmit({
         userEmail: email,
         sellerEmail,
-        totalPrice: total.toFixed(2),
+        totalPrice: total,
         deliveryAddress,
-        deliveryNumber: deliveryNumber.toString(),
+        deliveryNumber: Number(deliveryNumber),
         products: arraySeller,
       }, {
         headers: { Authorization: authToken },
       });
-      console.log(data);
       navigate(`/customer/orders/${data.newSaleId}`);
     } catch (e) {
       console.log(e);
