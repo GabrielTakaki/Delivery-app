@@ -26,6 +26,15 @@ export const ButtonHeader = styled.button`
   }
 `;
 
+export const NameHeader = styled.h1`
+  height: 100%;
+  max-width: 300px;
+  align-self: center;
+  width: 100%;
+  color: #fff;
+  font-size: calc(0.5em + 0.5vw);
+`;
+
 export const NavHeader = styled.nav`
   display: flex;
   // flex-direction: row;

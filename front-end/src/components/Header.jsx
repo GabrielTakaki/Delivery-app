@@ -1,12 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   SectionHeader,
   ButtonHeader,
   HeaderComponent,
-  NavHeader } from '../styles/header';
+  NavHeader,
+  NameHeader } from '../styles/header';
 
 function Header() {
-  const { name } = JSON.parse(localStorage.getItem('user'));
+  const localStorageUser = JSON.parse(localStorage.getItem('user'));
+  const navigate = useNavigate();
+
+  const handleExit = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
+
   return (
     <HeaderComponent>
       <NavHeader>
@@ -25,15 +34,15 @@ function Header() {
           </ButtonHeader>
         </SectionHeader>
         <SectionHeader>
-          <ButtonHeader
-            type="button"
+          <NameHeader
             data-testid="customer_products__element-navbar-user-full-name"
           >
-            { name }
-          </ButtonHeader>
+            { localStorageUser.name || 'name' }
+          </NameHeader>
           <ButtonHeader
             type="button"
             data-testid="customer_products__element-navbar-link-logout"
+            onClick={ handleExit }
           >
             Sair
           </ButtonHeader>

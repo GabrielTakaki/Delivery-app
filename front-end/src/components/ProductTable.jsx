@@ -7,9 +7,7 @@ function ProductTable({
   total,
   dataIdItem,
   cartItem,
-  subTotal,
   remove,
-  qtd,
   displayTotal,
   displayRemove,
 }) {
@@ -31,42 +29,42 @@ function ProductTable({
             }
           </tr>
           {
-            cartItem && cartItem.map((cart, index) => (
-              <TrTable key={ cart.id }>
+            cartItem && Object.entries(cartItem).map((cart, index) => (
+              <TrTable key={ cart[1].productId }>
                 <TdTable
                   data-testid={
                     `customer_${dataIdItem}__element-order-table-item-number-${index}`
                   }
                 >
-                  { cart.id }
+                  { index + 1 }
                 </TdTable>
                 <TdTable
                   data-testid={
                     `customer_${dataIdItem}__element-order-table-name-${index}`
                   }
                 >
-                  { cart.name }
+                  { cart[1].productName }
                 </TdTable>
                 <TdTable
                   data-testid={
                     `customer_${dataIdItem}__element-order-table-quantity-${index}`
                   }
                 >
-                  { qtd }
+                  { cart[1].productQuant }
                 </TdTable>
                 <TdTable
                   data-testid={
                     `customer_${dataIdItem}__element-order-table-unit-price-${index}`
                   }
                 >
-                  { cart.price }
+                  { cart[1].productPrice }
                 </TdTable>
                 <TdTable
                   data-testid={
                     `customer_${dataIdItem}__element-order-table-sub-total-${index}`
                   }
                 >
-                  { subTotal }
+                  { cart[1].subTotal }
                 </TdTable>
                 {
                   displayRemove && (

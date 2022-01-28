@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+import ProductsClient from './pages/client/ProductsClient';
 import Login from './pages/common/Login';
 import Register from './pages/common/Register';
 import Checkout from './pages/client/Checkout';
@@ -15,6 +16,7 @@ function App() {
       <Route path="/" element={ <Navigate replace to="/login" /> } />
       <Route exact path="/login" element={ <Login /> } />
       <Route exact path="/register" element={ <Register /> } />
+      <Route path="/customer/products" element={ <ProductsClient /> } />
       <Route exact path="/customer/checkout" element={ <Checkout /> } />
       <Route
         exact
