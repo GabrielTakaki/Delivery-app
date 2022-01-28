@@ -4,26 +4,26 @@ import { node } from 'prop-types';
 import Context from './Context';
 
 const endpoints = {
-  sale: {
-    create: 'http://localhost:3001/sale/create',
-    list: 'http://localhost:3001/sale/list',
-    getById: 'http://localhost:3001/sale/',
+  user: {
+    listSeller: 'http://localhost:3001/user/seller/list',
+    list: 'http://localhost:3001/user/list',
+    delete: 'http://localhost:3001/user/delete',
   },
 };
 
 function Provider({ children }) {
-  const [orders, setOrders] = useState([]);
+  const [seller, setSeller] = useState([]);
 
-  const [getOrders] = useState(() => async () => {
+  const [getSellers] = useState(() => async () => {
     const token = localStorage.getItem('token');
     const result = await axios
-      .get(endpoints.sale.list, { headers: { Authorization: token } });
-    setOrders(result.data);
+      .get(endpoints.user.listSeller, { headers: { Authorization: token } });
+    setSeller(result.data);
     console.log(result.data);
   });
 
   return (
-    <Context.Provider value={ { endpoints, orders, setOrders, getOrders } }>
+    <Context.Provider value={ { endpoints, seller, setSeller, getSellers } }>
       {children}
     </Context.Provider>
   );
