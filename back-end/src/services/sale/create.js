@@ -10,21 +10,17 @@ module.exports = async ({
     sellerEmail,
     products,
     ...data }) => {
-        try {
-            const saleUser = await user.findOne({ where: { email: userEmail } });
-            const saleSeller = await user.findOne({ where: { email: sellerEmail } });
-            const t = await sequelize.transaction();
-            const newSale = await sale.create({
-            userId: saleUser.id,
-            sellerId: saleSeller.id,
-            status: 'Pendente',
-            ...data,
-        }, { transaction: t });
-        const salesProducts = products.map((product) => ({ ...product, saleId: newSale.id }));
-        await salesProduct.bulkCreate(salesProducts, { transaction: t });
-        await t.commit();
-        return newSale.id;
-        } catch (e) {
-            console.log(e);
-        }
+        const saleUser = await user.findOne({ where: { email: userEmail } });
+        const saleSeller = await user.findOne({ where: { email: sellerEmail } });
+        const t = await sequelize.transaction();
+        const newSale = await sale.create({
+        userId: saleUser.id,
+        sellerId: saleSeller.id,
+        status: 'Pendente',
+        ...data,
+    }, { transaction: t });
+    const salesProducts = products.map((product) => ({ ...product, saleId: newSale.id }));
+    await salesProduct.bulkCreate(salesProducts, { transaction: t });
+    await t.commit();
+    return newSale.id;
 };
