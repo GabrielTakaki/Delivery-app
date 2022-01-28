@@ -30,6 +30,8 @@ function Provider({ children }) {
   const [authToken, setAuthToken] = useState(localStorage.getItem('token') || '');
 
   const loginSubmit = (loginForm) => axios.post(endpoints.user.login, loginForm);
+  const sellSubmit = (checkoutForm, auth) => axios
+    .post(endpoints.sale.create, checkoutForm, auth);
   const fetchApi = (endpoint, body) => axios.post(endpoint, body);
 
   const getProducts = () => {
@@ -47,6 +49,7 @@ function Provider({ children }) {
         authToken,
         setAuthToken,
         loginSubmit,
+        sellSubmit,
         endpoints,
         products,
         fetchApi,

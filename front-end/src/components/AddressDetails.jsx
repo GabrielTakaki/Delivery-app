@@ -1,31 +1,51 @@
 import React, { useContext, useEffect } from 'react';
-import { string, func } from 'prop-types';
+import { func } from 'prop-types';
 import Context from '../context/Seller';
 import
 { FormAddress, LabelAddress, AddressContainer, InputAddress, SelectForm, ButtonAddress }
   from '../styles/addressDetails';
 
-function AddressDetails({ addressValue, onChangeAddress, numberValue, onChangeNumber }) {
-  const { endpoints, seller, setSeller, getSellers } = useContext(Context.Context);
+function AddressDetails({ onClick }) {
+  const {
+    endpoints,
+    seller,
+    setSeller,
+    getSellers,
+    setCheckoutForm,
+    checkoutForm } = useContext(Context.Context);
+
   useEffect(() => {
-    getSellers();
+    const fetchSellers = async () => {
+      await getSellers();
+    };
+    fetchSellers();
   }, [endpoints, setSeller, getSellers]);
 
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setCheckoutForm({ ...checkoutForm, [name]: value });
+  };
+
+  const handleChangeNumber = ({ target }) => {
+    const { name, value } = target;
+    setCheckoutForm({ ...checkoutForm, [name]: parseInt(value, 10) });
+  };
   return (
     <AddressContainer>
       <FormAddress action="submit">
-        <LabelAddress htmlFor="select">
+        <LabelAddress htmlFor="sellerEmail">
           <span>Vendedor(a): </span>
           <SelectForm
-            name="seller"
+            name="sellerEmail"
+            value={ checkoutForm.sellerEmail }
+            onClick={ handleChange }
             data-testid="customer_checkout__select-seller"
           >
-            <option value="">Selecione um vendedor</option>
             {
               seller.map((sell) => (
                 <option
+                  value={ sell.email }
                   key={ sell.id }
-                  value={ sell.id }
                 >
                   { sell.email }
                 </option>
@@ -33,29 +53,34 @@ function AddressDetails({ addressValue, onChangeAddress, numberValue, onChangeNu
             }
           </SelectForm>
         </LabelAddress>
-        <LabelAddress htmlFor="address">
+        <LabelAddress htmlFor="deliveryAddress">
           <span>Endereço: </span>
           <InputAddress
-            value={ addressValue }
             name="deliveryAddress"
-            onChange={ onChangeAddress }
+            value={ checkoutForm.deliveryAddress }
+            onChange={ handleChange }
             data-testid="customer_checkout__input-address"
             placeholder="Travessa Terceira da Castanheira, Bairro Muruci"
           />
         </LabelAddress>
-        <LabelAddress htmlFor="number">
+        <LabelAddress htmlFor="deliveryNumber">
           <span>Número: </span>
           <InputAddress
-            value={ numberValue }
             name="deliveryNumber"
-            onChange={ onChangeNumber }
+            type="number"
+            value={ checkoutForm.deliveryNumber }
+            onChange={ handleChangeNumber }
             data-testid="customer_checkout__input-addressNumber"
             text="Número"
             placeholder="198"
           />
         </LabelAddress>
       </FormAddress>
-      <ButtonAddress type="button" data-testid="customer_checkout__button-submit-order">
+      <ButtonAddress
+        type="button"
+        data-testid="customer_checkout__button-submit-order"
+        onClick={ onClick }
+      >
         Finalizar Pedido
       </ButtonAddress>
     </AddressContainer>
@@ -63,10 +88,7 @@ function AddressDetails({ addressValue, onChangeAddress, numberValue, onChangeNu
 }
 
 AddressDetails.propTypes = {
-  addressValue: string,
-  onChangeAddress: func,
-  numberValue: string,
-  onChangeNumber: func,
+  onClick: func.isRequired,
 }.isRequired;
 
 export default AddressDetails;

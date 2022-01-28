@@ -35,10 +35,10 @@ function ProductsClient() {
   useEffect(() => {
     const sum = () => {
       const items = Object.values(shoppingCart);
-      const soma = items.reduce((acc, { productQuant, productPrice }) => (
-        acc + (productQuant * productPrice)
+      const soma = items.reduce((acc, { quantity, productPrice }) => (
+        acc + (quantity * productPrice)
       ), 0);
-      setTotal(soma.toFixed(2).toString().replace('.', ','));
+      setTotal(soma);
     };
     sum();
   }, [shoppingCart]);
@@ -56,7 +56,7 @@ function ProductsClient() {
           <span
             data-testid="customer_products__checkout-bottom-value"
           >
-            { `Ver carrinho: R$${total}` }
+            { `Ver carrinho: R$${total.toFixed(2).toString().replace('.', ',')}` }
           </span>
         </button>
         <h1>Produtos</h1>

@@ -12,15 +12,29 @@ const endpoints = {
 function Provider({ children }) {
   const [seller, setSeller] = useState([]);
 
+  const [checkoutForm, setCheckoutForm] = useState(
+    { sellerEmail: '', deliveryAddress: '', deliveryNumber: 0 },
+  );
+
   const [getSellers] = useState(() => async () => {
     const token = localStorage.getItem('token');
     const result = await axios
       .get(endpoints.seller.listSeller, { headers: { Authorization: token } });
+    setCheckoutForm({ ...checkoutForm, sellerEmail: result.data.users[0].email });
     setSeller(result.data.users);
   });
 
   return (
-    <Context.Provider value={ { endpoints, seller, setSeller, getSellers } }>
+    <Context.Provider
+      value={ {
+        endpoints,
+        seller,
+        setSeller,
+        getSellers,
+        checkoutForm,
+        setCheckoutForm,
+      } }
+    >
       {children}
     </Context.Provider>
   );

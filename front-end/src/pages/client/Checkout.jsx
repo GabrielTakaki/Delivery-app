@@ -1,14 +1,42 @@
 import React, { useContext } from 'react';
-// import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Context from '../../context/Context';
+import { SellerContext } from '../../context/Seller';
 import Header from '../../components/Header';
 import ProductTable from '../../components/ProductTable';
 import AddressDetails from '../../components/AddressDetails';
 
 function Checkout() {
   const { email } = JSON.parse(localStorage.getItem('user'));
-  console.log(email);
-  const { shoppingCart } = useContext(Context);
+  const { shoppingCart, authToken, total, sellSubmit } = useContext(Context);
+  const { checkoutForm } = useContext(SellerContext);
+  const { sellerEmail, deliveryAddress, deliveryNumber } = checkoutForm;
+  const navigate = useNavigate();
+
+  const arraySeller = Object.entries(shoppingCart).map((item) => item[1]);
+  const postSell = async () => {
+    try {
+      const { data } = await sellSubmit({
+        userEmail: email,
+        sellerEmail,
+        totalPrice: total.toFixed(2),
+        deliveryAddress,
+        deliveryNumber: deliveryNumber.toString(),
+        products: arraySeller,
+      }, {
+        headers: { Authorization: authToken },
+      });
+      console.log(data);
+      navigate(`/customer/orders/${data.newSaleId}`);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    await postSell();
+  };
   return (
     <>
       <Header />
@@ -21,7 +49,9 @@ function Checkout() {
         displayTotal="true"
       />
       <h3 style={ { marginLeft: '10px' } }>Endereço de entrega</h3>
-      <AddressDetails />
+      <AddressDetails
+        onClick={ (e) => handleClick(e) }
+      />
     </>
   );
 }

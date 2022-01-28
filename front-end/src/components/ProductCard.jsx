@@ -34,7 +34,7 @@ function ProductCard({ product }) {
           productId: id,
           productName: name,
           productPrice: price,
-          productQuant: quantity,
+          quantity,
           subTotal: (quantity * price).toFixed(2),
         },
       });

@@ -20,10 +20,10 @@ function ProductTable({
   useEffect(() => {
     const sum = () => {
       const items = Object.values(shoppingCart);
-      const soma = items.reduce((acc, { productQuant, productPrice }) => (
-        acc + (productQuant * productPrice)
+      const soma = items.reduce((acc, { quantity, productPrice }) => (
+        acc + (quantity * productPrice)
       ), 0);
-      setTotal(soma.toFixed(2).toString().replace('.', ','));
+      setTotal(soma);
     };
     sum();
   }, [shoppingCart]);
@@ -65,21 +65,21 @@ function ProductTable({
                     `customer_${dataIdItem}__element-order-table-quantity-${index}`
                   }
                 >
-                  { cart[1].productQuant }
+                  { cart[1].quantity }
                 </TdTable>
                 <TdTable
                   data-testid={
                     `customer_${dataIdItem}__element-order-table-unit-price-${index}`
                   }
                 >
-                  { `R$${cart[1].productPrice}` }
+                  { `R$${cart[1].productPrice.replace('.', ',')}` }
                 </TdTable>
                 <TdTable
                   data-testid={
                     `customer_${dataIdItem}__element-order-table-sub-total-${index}`
                   }
                 >
-                  { `R$ ${cart[1].subTotal}` }
+                  { `R$ ${cart[1].subTotal.replace('.', ',')}` }
                 </TdTable>
                 {
                   displayRemove && (
@@ -101,7 +101,7 @@ function ProductTable({
       {
         displayTotal && (
           <TotalTable data-testid={ `customer_${dataIdItem}__element-order-total-price` }>
-            { `Total: R$ ${total}` }
+            { `Total: R$ ${total.toFixed(2).toString().replace('.', ',')}` }
           </TotalTable>
         )
       }

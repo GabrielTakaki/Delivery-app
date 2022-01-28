@@ -10,6 +10,7 @@ import Orders from './pages/client/Orders';
 
 import { CustomerProvider } from './context/Customer';
 import { SellerProvider } from './context/Seller';
+import Details from './pages/client/Details';
 
 function App() {
   return (
@@ -35,6 +36,11 @@ function App() {
             <Orders />
           </CustomerProvider>
         }
+      />
+      <Route
+        exact
+        path="/customer/orders/:id"
+        element={ <Details /> }
       />
     </Routes>
   );
