@@ -116,7 +116,7 @@ export function Provider({ children }) {
     const data = await axios.get(`http://localhost:3001/sale/${id}`, {
       headers: { Authorization: token },
     });
-    setSaleDetailsId(data);
+    setSaleDetailsId(data.data);
   });
 
   const [getSellers] = useState(() => async (token) => {

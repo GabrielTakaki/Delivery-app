@@ -8,7 +8,6 @@ import ProductTable from '../../components/ProductTable';
 function OrderDetails() {
   const { authToken } = useContext(Global.Context);
   const {
-    shoppingCart,
     getSale,
     getSaleById,
     saleDetailsId,
@@ -17,40 +16,38 @@ function OrderDetails() {
     getSellers } = useContext(Customer.Context);
 
   useEffect(() => {
-    getSellers(authToken);
-  }, [getSellers, authToken]);
-
-  useEffect(() => {
     const fetchSales = async () => {
+      await getSaleById(authToken, paramId);
+      await getSellers(authToken);
       await getSale(authToken);
     };
     fetchSales();
-  }, [getSale, authToken]);
+  }, [getSellers, getSale, getSaleById, authToken, paramId]);
 
-  useEffect(() => {
-    const fetchSales = async () => {
-      await getSaleById(authToken, paramId);
-    };
-    fetchSales();
-  }, [getSaleById, authToken, paramId]);
+  const subTotal = saleDetailsId.products && saleDetailsId.products
+    .map((item) => ({
+      ...item,
+      subTotal: item.price * item.salesProduct.quantity,
+      quantity: item.salesProduct.quantity,
+    }));
 
   return (
     <div>
       <Header />
       <h3 style={ { margin: '10px' } }>Detalhes do Pedido</h3>
       {
-        saleDetailsId.data && (
+        saleDetailsId && sellersList.length > 0 ? (
           <OrderDetailsCard
-            orderNumber={ saleDetailsId.data.id }
+            orderNumber={ saleDetailsId.id }
             seller={ sellersList[0].name }
-            date={ moment(saleDetailsId.data.sale_date).format('DD/MM/YYYY') }
-            status={ saleDetailsId.data.status }
+            date={ moment(saleDetailsId.sale_date).format('DD/MM/YYYY') }
+            status={ saleDetailsId.status }
             markAsDelivered="MARCAR COMO ENTREGUE"
           />
-        )
+        ) : 'Nada encontrado'
       }
       <ProductTable
-        shoppingCart={ shoppingCart }
+        shoppingCart={ subTotal }
         dataIdItem="order_details"
         remove="Remover"
         displayTotal="true"
