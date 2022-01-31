@@ -15,6 +15,7 @@ function Checkout() {
     totalOfShoppingCart,
     postOrder,
     getSellers,
+    setSaleId,
   } = useContext(Customer.Context);
 
   const navigate = useNavigate();
@@ -39,8 +40,10 @@ function Checkout() {
           products: shoppingCart.map(({ id, quantity }) => ({ productId: id, quantity })),
         },
       );
-
-      navigate(`/customer/orders/${data.newSaleId}`);
+      if (data.newSaleId) {
+        setSaleId(data.newSaleId);
+        navigate(`/customer/orders/${data.newSaleId}`);
+      }
     } catch (err) {
       console.log(err);
     }

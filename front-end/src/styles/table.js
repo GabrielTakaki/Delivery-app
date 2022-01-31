@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const MainTable = styled.main`
   border: 1px solid #000;
-  margin: 10px;
+  margin: 0 10px;
 `;
 
 export const Table = styled.table`

@@ -9,7 +9,7 @@ import {
   PRODUCT_LIST,
   SALE_CREATE,
   SALE_LIST,
-  SALE_BY_ID,
+  // SALE_BY_ID,
 } from './endpoints';
 
 const fetchWithBody = (method, endpoint, body) => axios[method](endpoint, body);
@@ -40,7 +40,9 @@ export const postSaleCreate = (token, body) => fetchWithTokenAndBody(
   body,
 );
 export const getSaleList = (token) => fetchWithToken('get', SALE_LIST, token);
-export const getSaleById = (token) => fetchWithToken('get', SALE_BY_ID, token);
+// export const getSaleById = (token, id) => fetchWithToken(
+//   'get', SALE_BY_ID(id), token,
+// );
 
 // ADMIN
 export const getAdminUsersList = (token) => fetchWithToken('get', USER_LIST, token);

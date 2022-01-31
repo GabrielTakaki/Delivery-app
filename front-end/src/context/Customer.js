@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { node } from 'prop-types';
-
+import axios from 'axios';
 import {
   getProductsList,
   postSaleCreate,
@@ -103,6 +103,8 @@ export function Provider({ children }) {
   const [sellersList, setSellersList] = useState([]);
   const [seller, setSeller] = useState([]);
   const [sale, setSale] = useState([]);
+  const [saleDetailsId, setSaleDetailsId] = useState([]);
+  const [saleId, setSaleId] = useState();
 
   const [getSale] = useState(() => async (token) => {
     const { data } = await getSaleList(token);
@@ -110,12 +112,12 @@ export function Provider({ children }) {
     setSale(data);
   });
 
-  // const getSaleById = async (id) => {
-  //   const token = localStorage.getItem('token');
-  //   axios
-  //     .get(`${endpoints.seller.listId}${id}`, { headers: { Authorization: token } })
-  //     .then((res) => setSale(res.data)).catch((err) => console.log(err));
-  // };
+  const [getSaleById] = useState(() => async (token, id) => {
+    const data = await axios.get(`http://localhost:3001/sale/${id}`, {
+      headers: { Authorization: token },
+    });
+    setSaleDetailsId(data);
+  });
 
   const [getSellers] = useState(() => async (token) => {
     const { data } = await getSellerList(token);
@@ -138,6 +140,10 @@ export function Provider({ children }) {
     setOrders(data);
   });
 
+  // Get url last param to get the sale id
+  const paramId = window
+    .location.href.substring(window.location.href.lastIndexOf('/') + 1);
+
   return (
     <Context.Provider
       value={ {
@@ -158,6 +164,11 @@ export function Provider({ children }) {
         sale,
         seller,
         setSeller,
+        getSaleById,
+        saleDetailsId,
+        saleId,
+        setSaleId,
+        paramId,
         setDirectQuantityOfCartItem,
         increaseItemQuantityInShoppingCart,
         decreaseItemQuantityInShoppingCart,
