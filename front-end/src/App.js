@@ -40,7 +40,11 @@ function App() {
       <Route
         exact
         path="/customer/orders/:id"
-        element={ <Details /> }
+        element={
+          <SellerProvider>
+            <Details />
+          </SellerProvider>
+        }
       />
     </Routes>
   );
