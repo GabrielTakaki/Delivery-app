@@ -1,28 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Context from '../../context/Context';
+
 import Header from '../../components/Header';
 import ProductCard from '../../components/ProductCard';
 import ContainerProducts from '../../styles/mainProducts';
 
+import { Global, Customer } from '../../context';
+
 function ProductsClient() {
+  const { authToken } = useContext(Global.Context);
   const {
     products,
     getProducts,
-    total,
-    setTotal,
-    shoppingCart,
-  } = useContext(Context);
+    totalOfShoppingCart,
+  } = useContext(Customer.Context);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   /* Quando iniciado a aplicação já busca os produtos */
   useEffect(() => {
-    const productsExec = (async () => {
-      await getProducts();
-    });
-    productsExec();
-  }, []);
+    getProducts(authToken);
+  }, [authToken, getProducts]);
 
   /* Elemento loading */
   useEffect(() => {
@@ -30,18 +28,6 @@ function ProductsClient() {
       setLoading(false);
     }
   }, [products]);
-
-  /* Atualiza soma total */
-  useEffect(() => {
-    const sum = () => {
-      const items = Object.values(shoppingCart);
-      const soma = items.reduce((acc, { quantity, productPrice }) => (
-        acc + (quantity * productPrice)
-      ), 0);
-      setTotal(soma);
-    };
-    sum();
-  }, [shoppingCart]);
 
   return (
     <ContainerProducts>
@@ -51,12 +37,13 @@ function ProductsClient() {
           type="button"
           data-testid="customer_products__button-cart"
           onClick={ () => navigate('/customer/checkout') }
-          disabled={ total === '0,00' }
+          disabled={ totalOfShoppingCart === 0 }
         >
           <span
             data-testid="customer_products__checkout-bottom-value"
           >
-            { `Ver carrinho: R$${total.toFixed(2).toString().replace('.', ',')}` }
+            { `Ver carrinho: R$${totalOfShoppingCart
+              .toFixed(2).toString().replace('.', ',')}` }
           </span>
         </button>
         <h1>Produtos</h1>

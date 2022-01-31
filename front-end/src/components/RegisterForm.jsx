@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
+
 import Input from './Input';
 import { FormRegister } from '../styles/mainRegister';
-import useLocalStorage from '../hooks/useLocalStorage';
-import Context from '../context/Context';
+// import useLocalStorage from '../hooks/useLocalStorage';
+
+import { Global } from '../context';
+import { postUserRegister } from '../services/api';
 
 function RegisterForm() {
-  const { endpoints, fetchApi } = useContext(Context);
-  const [user, setUser] = useLocalStorage('userName', '');
-  const [, setUserInStorage] = useLocalStorage('user', '');
-  const [, setToken] = useLocalStorage('token', '');
+  const { setAuthTokenOnAll, setUser } = useContext(Global.Context);
   const [registerForm, setRegisterForm] = useState({ email: '', password: '', name: '' });
   const [disabled, setDisable] = useState(false);
   const [hiddenInvalidEmail, setHiddenInvalidEmail] = useState(false);
@@ -36,24 +36,20 @@ function RegisterForm() {
     } else {
       setDisable(true);
     }
-  }, [registerForm, user]);
+  }, [registerForm]);
 
   const submitRegister = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await fetchApi(
-        endpoints.user.register,
-        registerForm,
-      );
+      const { data } = await postUserRegister(registerForm);
 
       const { email, name, role } = jwt.decode(data.token);
 
-      setUserInStorage({ email, name, role, token: data.token });
-      setToken(data.token);
+      setUser({ email, name, role, token: data.token });
+      setAuthTokenOnAll(data.token);
 
-      navigate('/customer/products');
-      setUser(registerForm.name);
       setRegisterForm({ email: '', password: '', name: '' });
+      navigate('/customer/products');
     } catch (err) {
       const CONFLICT = 409;
       if (err.response.status === CONFLICT) setHiddenInvalidEmail(true);

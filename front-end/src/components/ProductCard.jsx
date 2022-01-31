@@ -1,45 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ContainerCard } from '../styles/productCard';
-import Context from '../context/Context';
+import { Customer } from '../context';
 
 /* Gera card do produto */
 function ProductCard({ product }) {
   const { id, name, price, urlImage } = product;
-  const [quantity, setQuantity] = useState(0);
-  const { shoppingCart, setShoppingCart } = useContext(Context);
+  const {
+    shoppingCart,
+    setDirectQuantityOfCartItem,
+    increaseItemQuantityInShoppingCart,
+    decreaseItemQuantityInShoppingCart,
+  } = useContext(Customer.Context);
 
+  const [quantity, setQuantity] = useState(0);
   /* Muda o estado de quantidade pelo proprio input */
   const handleChange = ({ target: { value } }) => {
-    setQuantity(Number(value));
+    setDirectQuantityOfCartItem(product, Number(value));
   };
 
-  /* Subtrai 1un da quantidade pelo click do botão */
-  const handleSubtraction = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-  /* Atualiza o carrinho do context sempre que a quantidade muda */
   useEffect(() => {
-    if (quantity === 0) {
-      const actual = { ...shoppingCart };
-      delete actual[id];
-      setShoppingCart(actual);
+    const productIndexInCart = shoppingCart.findIndex((item) => item.id === product.id);
+
+    if (productIndexInCart >= 0) {
+      setQuantity(shoppingCart[productIndexInCart].quantity);
     } else {
-      setShoppingCart({
-        ...shoppingCart,
-        [id]: {
-          productId: id,
-          productName: name,
-          productPrice: price,
-          quantity,
-          subTotal: (quantity * price).toFixed(2),
-        },
-      });
+      setQuantity(0);
     }
-  }, [quantity]);
+  }, [product, setQuantity, shoppingCart]);
 
   return (
     <ContainerCard>
@@ -63,7 +51,7 @@ function ProductCard({ product }) {
         <button
           type="button"
           data-testid={ `customer_products__button-card-rm-item-${id}` }
-          onClick={ handleSubtraction }
+          onClick={ () => decreaseItemQuantityInShoppingCart(product) }
         >
           -
         </button>
@@ -79,7 +67,7 @@ function ProductCard({ product }) {
         <button
           type="button"
           data-testid={ `customer_products__button-card-add-item-${id}` }
-          onClick={ () => setQuantity(quantity + 1) }
+          onClick={ () => increaseItemQuantityInShoppingCart(product) }
         >
           +
         </button>

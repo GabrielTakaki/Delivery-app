@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Jwt from 'jsonwebtoken';
-import Context from '../context/Context';
+
+import { Global } from '../context';
+import { postUserLogin } from '../services/api';
 
 function LoginForm() {
   const [disable, setDisable] = useState(true);
   const [hidden, setHidden] = useState(true);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-  const { setUser, loginSubmit, setAuthToken, authToken } = useContext(Context);
+  const { setAuthTokenOnAll, setUser } = useContext(Global.Context);
   const navigate = useNavigate();
 
   /* Direcionamento para o registro  */
@@ -38,16 +40,13 @@ function LoginForm() {
     event.preventDefault();
 
     try {
-      const { data } = await loginSubmit(loginForm);
+      const { data } = await postUserLogin(loginForm);
 
       if (data.token) {
         const { token } = data;
         const { email, name, role } = Jwt.decode(token);
-        const user = { email, name, role, token };
-        localStorage.setItem('token', token);
-        setAuthToken(token);
-        localStorage.setItem('user', JSON.stringify(user));
-        setUser(user);
+        setAuthTokenOnAll(token);
+        setUser({ email, name, role, token });
 
         const paths = {
           customer: '/customer/products',
@@ -61,7 +60,7 @@ function LoginForm() {
       setHidden(false);
     }
   };
-  console.log(authToken);
+
   return (
     <div>
       <form action="submit">

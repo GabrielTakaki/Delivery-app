@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { number, string } from 'prop-types';
+import moment from 'moment';
 import {
   OrderCardContainer,
   Status,
@@ -29,9 +30,13 @@ function OrderCard({
       <span
         data-testid={ `${entity}_orders__element-order-date-${id}` }
       >
-        { date }
+        { moment(date).format('D/MM/YYYY') }
       </span>
-      <span>{ `R$ ${totalPrice}` }</span>
+      <span
+        data-testid={ `${entity}_orders__element-card-price-${id}` }
+      >
+        { `R$ ${totalPrice.toFixed(2).replace('.', ',')}` }
+      </span>
       { address && (
         <span
           data-testid={ `${entity}_orders__element-card-address-${id}` }

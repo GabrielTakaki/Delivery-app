@@ -1,15 +1,15 @@
 import React, { useEffect, useContext } from 'react';
-// import axios from 'axios';
 import Header from '../../components/Header';
 import OrderCard from '../../components/OrderCard';
-import { CustomerContext } from '../../context/Customer';
+import { Global, Customer } from '../../context';
 
 function Orders() {
-  const { endpoints, orders, setOrders, getOrders } = useContext(CustomerContext);
+  const { authToken } = useContext(Global.Context);
+  const { orders, getOrders } = useContext(Customer.Context);
 
   useEffect(() => {
-    getOrders();
-  }, [endpoints, setOrders, getOrders]);
+    getOrders(authToken);
+  }, [getOrders, authToken]);
 
   return (
     <>

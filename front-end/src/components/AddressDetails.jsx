@@ -1,25 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { func } from 'prop-types';
-import Context from '../context/Seller';
+import { Customer } from '../context';
 import
 { FormAddress, LabelAddress, AddressContainer, InputAddress, SelectForm, ButtonAddress }
   from '../styles/addressDetails';
 
 function AddressDetails({ onClick }) {
   const {
-    endpoints,
-    seller,
-    setSeller,
-    getSellers,
+    sellersList,
     setCheckoutForm,
-    checkoutForm } = useContext(Context.Context);
-
-  useEffect(() => {
-    const fetchSellers = async () => {
-      await getSellers();
-    };
-    fetchSellers();
-  }, [endpoints, setSeller, getSellers]);
+    checkoutForm } = useContext(Customer.Context);
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -42,7 +32,7 @@ function AddressDetails({ onClick }) {
             data-testid="customer_checkout__select-seller"
           >
             {
-              seller.map((sell) => (
+              sellersList.map((sell) => (
                 <option
                   value={ sell.email }
                   key={ sell.id }

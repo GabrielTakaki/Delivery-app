@@ -1,31 +1,18 @@
-import React, { useState } from 'react';
+import React, { createContext, useState } from 'react';
 import axios from 'axios';
 import { node } from 'prop-types';
-import Context from './Context';
 
-const endpoints = {
-  seller: {
-    listSeller: 'http://localhost:3001/user/seller/list',
-    list: 'http://localhost:3001/sale/list',
-    listId: 'http://localhost:3001/sale/',
-  },
-};
+export const Context = createContext();
 
 function Provider({ children }) {
+  const endpoints = {
+    seller: {
+      listSeller: 'http://localhost:3001/user/seller/list',
+      list: 'http://localhost:3001/sale/list',
+    },
+  };
   const [seller, setSeller] = useState([]);
   const [sale, setSale] = useState([]);
-
-  const [checkoutForm, setCheckoutForm] = useState(
-    { sellerEmail: '', deliveryAddress: '', deliveryNumber: 0 },
-  );
-
-  const [getSellers] = useState(() => async () => {
-    const token = localStorage.getItem('token');
-    const result = await axios
-      .get(endpoints.seller.listSeller, { headers: { Authorization: token } });
-    setCheckoutForm({ ...checkoutForm, sellerEmail: result.data.users[0].email });
-    setSeller(result.data.users);
-  });
 
   const getSale = () => {
     const token = localStorage.getItem('token');
@@ -47,7 +34,6 @@ function Provider({ children }) {
         endpoints,
         seller,
         setSeller,
-        getSellers,
         checkoutForm,
         setCheckoutForm,
         getSale,
@@ -65,4 +51,7 @@ Provider.propTypes = {
   children: node.isRequired,
 };
 
-export default Provider;
+export default {
+  Context,
+  Provider,
+};

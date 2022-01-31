@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   SectionHeader,
@@ -7,14 +7,11 @@ import {
   NavHeader,
   NameHeader } from '../styles/header';
 
-function Header() {
-  const localStorageUser = JSON.parse(localStorage.getItem('user'));
-  const navigate = useNavigate();
+import { Global } from '../context';
 
-  const handleExit = () => {
-    localStorage.clear();
-    navigate('/login');
-  };
+function Header() {
+  const { user, exit } = useContext(Global.Context);
+  const navigate = useNavigate();
 
   return (
     <HeaderComponent>
@@ -23,12 +20,15 @@ function Header() {
           <ButtonHeader
             type="button"
             data-testid="customer_products__element-navbar-link-products"
+            onClick={ () => navigate('/customer/products') }
+
           >
             PRODUTOS
           </ButtonHeader>
           <ButtonHeader
             type="button"
             data-testid="customer_products__element-navbar-link-orders"
+            onClick={ () => navigate(`/${user.role}/orders`) }
           >
             MEUS PEDIDOS
           </ButtonHeader>
@@ -37,12 +37,12 @@ function Header() {
           <NameHeader
             data-testid="customer_products__element-navbar-user-full-name"
           >
-            { localStorageUser.name || 'name' }
+            { user.name || 'name' }
           </NameHeader>
           <ButtonHeader
             type="button"
             data-testid="customer_products__element-navbar-link-logout"
-            onClick={ handleExit }
+            onClick={ () => exit() }
           >
             Sair
           </ButtonHeader>
