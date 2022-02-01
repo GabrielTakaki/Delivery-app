@@ -2,7 +2,8 @@ import React from 'react';
 import { string } from 'prop-types';
 import { Section, Span, Button } from '../styles/orderDetailsCard';
 
-function OrderDetailsCard({ orderNumber, seller, date, status, markAsDelivered }) {
+function OrderDetailsCard({
+  orderNumber, seller, date, status, markAsDelivered, disabled }) {
   return (
     <Section>
       <Span data-testid="customer_order_details__element-order-details-label-order-id">
@@ -19,7 +20,11 @@ function OrderDetailsCard({ orderNumber, seller, date, status, markAsDelivered }
       >
         { status }
       </Span>
-      <Button type="button" data-testid="customer_order_details__button-delivery-check">
+      <Button
+        type="button"
+        data-testid="customer_order_details__button-delivery-check"
+        disabled={ disabled }
+      >
         { markAsDelivered }
       </Button>
     </Section>
@@ -32,6 +37,7 @@ OrderDetailsCard.propTypes = {
   status: string,
   date: string,
   markAsDelivered: string,
+  disabled: string,
 }.isRequired;
 
 export default OrderDetailsCard;

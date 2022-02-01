@@ -47,4 +47,11 @@ export const Button = styled.button`
   &:active {
     transform: scale(0.99);
   }
+  &:disabled {
+    background-color: gray;
+    cursor: initial;
+    &:hover {
+      transform: none;
+    }
+  }
 `;

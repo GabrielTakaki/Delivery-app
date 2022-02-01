@@ -14,8 +14,8 @@ function ProductTable({
   const {
     setDirectQuantityOfCartItem,
     totalOfShoppingCart,
+    saleDetailsId,
   } = useContext(Customer.Context);
-
   return (
     <MainTable>
       <Table>
@@ -88,9 +88,16 @@ function ProductTable({
         </TbodyTable>
       </Table>
       {
-        displayTotal && (
+        displayTotal && totalOfShoppingCart > 0 ? (
           <TotalTable data-testid={ `customer_${dataIdItem}__element-order-total-price` }>
             { `Total: R$ ${totalOfShoppingCart.toFixed(2).toString().replace('.', ',')}` }
+          </TotalTable>
+        ) : saleDetailsId && (
+          <TotalTable data-testid={ `customer_${dataIdItem}__element-order-total-price` }>
+            {
+              `Total: R$
+              ${saleDetailsId.totalPrice}`
+            }
           </TotalTable>
         )
       }
@@ -99,7 +106,6 @@ function ProductTable({
 }
 
 ProductTable.propTypes = {
-  total: number,
   item: string,
   description: string,
   itemPrice: number,

@@ -31,6 +31,7 @@ function OrderDetails() {
       quantity: item.salesProduct.quantity,
     }));
 
+  console.log(saleDetailsId);
   return (
     <div>
       <Header />
@@ -43,6 +44,7 @@ function OrderDetails() {
             date={ moment(saleDetailsId.sale_date).format('DD/MM/YYYY') }
             status={ saleDetailsId.status }
             markAsDelivered="MARCAR COMO ENTREGUE"
+            disabled={ saleDetailsId.status === 'Pendente' }
           />
         ) : 'Nada encontrado'
       }
@@ -51,6 +53,7 @@ function OrderDetails() {
         dataIdItem="order_details"
         remove="Remover"
         displayTotal="true"
+        detailsTotalPrice={ saleDetailsId.totalPrice }
       />
     </div>
   );
