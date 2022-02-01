@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Jwt from 'jsonwebtoken';
-
+import { LabelRegister } from '../styles/mainRegister';
+import { LoginInput, LoginButton, ButtonDiv } from '../styles/mainLogin';
 import { Global } from '../context';
 import { postUserLogin } from '../services/api';
 
@@ -65,9 +66,9 @@ function LoginForm() {
     <div>
       <form action="submit">
 
-        <label htmlFor="email">
+        <LabelRegister htmlFor="email">
           Login
-          <input
+          <LoginInput
             type="text"
             name="email"
             data-testid="common_login__input-email"
@@ -75,11 +76,11 @@ function LoginForm() {
             value={ loginForm.email }
             onChange={ handleChange }
           />
-        </label>
+        </LabelRegister>
 
-        <label htmlFor="password">
+        <LabelRegister htmlFor="password">
           Senha
-          <input
+          <LoginInput
             type="password"
             name="password"
             data-testid="common_login__input-password"
@@ -87,24 +88,26 @@ function LoginForm() {
             value={ loginForm.password }
             onChange={ handleChange }
           />
-        </label>
+        </LabelRegister>
 
-        <button
-          type="submit"
-          data-testid="common_login__button-login"
-          disabled={ disable }
-          onClick={ handleSubmit }
-        >
-          Login
-        </button>
+        <ButtonDiv>
+          <LoginButton
+            type="submit"
+            data-testid="common_login__button-login"
+            disabled={ disable }
+            onClick={ handleSubmit }
+          >
+            Login
+          </LoginButton>
 
-        <button
-          type="button"
-          data-testid="common_login__button-register"
-          onClick={ goRegister }
-        >
-          Cadastre-se
-        </button>
+          <LoginButton
+            type="button"
+            data-testid="common_login__button-register"
+            onClick={ goRegister }
+          >
+            Cadastre-se
+          </LoginButton>
+        </ButtonDiv>
 
       </form>
 

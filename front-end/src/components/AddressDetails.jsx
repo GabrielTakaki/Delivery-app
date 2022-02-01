@@ -29,6 +29,7 @@ function AddressDetails({ onClick }) {
             name="sellerEmail"
             value={ checkoutForm.sellerEmail }
             onClick={ handleChange }
+            onChange={ handleChange }
             data-testid="customer_checkout__select-seller"
           >
             {

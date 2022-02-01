@@ -31,7 +31,6 @@ function OrderDetails() {
       quantity: item.salesProduct.quantity,
     }));
 
-  console.log(saleDetailsId);
   return (
     <div>
       <Header />

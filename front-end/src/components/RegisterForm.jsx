@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 
-import Input from './Input';
-import { FormRegister } from '../styles/mainRegister';
+import { FormRegister, LabelRegister } from '../styles/mainRegister';
+import { LoginInput, LoginButton, ButtonDiv } from '../styles/mainLogin';
 // import useLocalStorage from '../hooks/useLocalStorage';
 
 import { Global } from '../context';
@@ -59,44 +59,49 @@ function RegisterForm() {
     <>
       <FormRegister action="submit">
         <h3>Register</h3>
-        <Input
-          text="Nome"
-          placeholder="Seu nome"
-          type="text"
-          testId="common_register__input-name"
-          onChange={ handleChange }
-          value={ registerForm.name }
-          name="name"
-          htmlFor="name"
-        />
-        <Input
-          text="Email"
-          placeholder="seu-email@site.com.br"
-          type="email"
-          testId="common_register__input-email"
-          onChange={ handleChange }
-          value={ registerForm.email }
-          name="email"
-          htmlFor="email"
-        />
-        <Input
-          text="Senha"
-          placeholder="********"
-          type="password"
-          testId="common_register__input-password"
-          onChange={ handleChange }
-          value={ registerForm.password }
-          name="password"
-          htmlFor="password"
-        />
-        <button
-          type="button"
-          data-testid="common_register__button-register"
-          disabled={ disabled }
-          onClick={ (e) => submitRegister(e) }
-        >
-          Cadastrar
-        </button>
+        <LabelRegister htmlFor="name">
+          Nome
+          <LoginInput
+            placeholder="Seu nome"
+            type="text"
+            testId="common_register__input-name"
+            onChange={ handleChange }
+            value={ registerForm.name }
+            name="name"
+          />
+        </LabelRegister>
+        <LabelRegister htmlFor="email">
+          Email
+          <LoginInput
+            placeholder="seu-email@site.com.br"
+            type="email"
+            testId="common_register__input-email"
+            onChange={ handleChange }
+            value={ registerForm.email }
+            name="email"
+          />
+        </LabelRegister>
+        <LabelRegister htmlFor="password">
+          Senha
+          <LoginInput
+            placeholder="********"
+            type="password"
+            testId="common_register__input-password"
+            onChange={ handleChange }
+            value={ registerForm.password }
+            name="password"
+          />
+        </LabelRegister>
+        <ButtonDiv>
+          <LoginButton
+            type="button"
+            data-testid="common_register__button-register"
+            disabled={ disabled }
+            onClick={ (e) => submitRegister(e) }
+          >
+            Cadastrar
+          </LoginButton>
+        </ButtonDiv>
       </FormRegister>
       { hiddenInvalidEmail && (
         <span
