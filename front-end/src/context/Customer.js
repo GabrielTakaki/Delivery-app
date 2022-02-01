@@ -34,7 +34,7 @@ export function Provider({ children }) {
     if (itemIndex >= 0) {
       const newShoppingCart = [...shoppingCart];
 
-      if (quantity >= 0) {
+      if (quantity <= 0) {
         newShoppingCart.splice(itemIndex, 1);
         setShoppingCartInContext(newShoppingCart);
       } else {

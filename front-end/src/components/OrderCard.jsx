@@ -18,7 +18,7 @@ function OrderCard({
   const navigate = useNavigate();
 
   return (
-    <OrderCardContainer onClick={ () => navigate(`/customer/orders/${id}`) }>
+    <OrderCardContainer onClick={ () => navigate(`/${entity}/orders/${id}`) }>
       <span>Pedido</span>
       <span data-testid={ `${entity}_orders__element-order-id-${id}` }>{ id }</span>
       <Status
@@ -30,7 +30,7 @@ function OrderCard({
       <span
         data-testid={ `${entity}_orders__element-order-date-${id}` }
       >
-        { moment(date).format('D/MM/YYYY') }
+        { moment(date).format('DD/MM/YYYY') }
       </span>
       <span
         data-testid={ `${entity}_orders__element-card-price-${id}` }

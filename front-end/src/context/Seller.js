@@ -15,7 +15,7 @@ function Provider({ children }) {
   const [sale, setSale] = useState([]);
 
   const getSale = () => {
-    const token = localStorage.getItem('token');
+    const token = JSON.parse(localStorage.getItem('token'));
     axios
       .get(endpoints.seller.list, { headers: { Authorization: token } })
       .then((res) => setSale(res.data)).catch((err) => console.log(err));
@@ -34,8 +34,6 @@ function Provider({ children }) {
         endpoints,
         seller,
         setSeller,
-        checkoutForm,
-        setCheckoutForm,
         getSale,
         sale,
         setSale,

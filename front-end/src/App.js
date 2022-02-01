@@ -7,8 +7,9 @@ import Register from './pages/common/Register';
 import NotFound from './pages/common/NotFound';
 
 import customerPages from './pages/customer';
+import sellerPages from './pages/seller';
 
-import { Global, Customer } from './context';
+import { Global, Customer, Seller } from './context';
 
 const customerRoutes = (checker) => {
   if (checker) checker();
@@ -53,6 +54,30 @@ const customerRoutes = (checker) => {
   );
 };
 
+const sellerRoutes = (checker) => {
+  if (checker) checker();
+  return (
+    <>
+      <Route
+        path="/seller/orders"
+        element={
+          <Seller.Provider>
+            <sellerPages.Orders />
+          </Seller.Provider>
+        }
+      />
+      <Route
+        path="/customer/fdsfsad"
+        element={
+          <Seller.Provider>
+            <sellerPages.Orders />
+          </Seller.Provider>
+        }
+      />
+    </>
+  );
+};
+
 function App() {
   const { user, checkAuthentication } = useContext(Global.Context);
   return (
@@ -69,6 +94,7 @@ function App() {
         element={ <Register /> }
       />
       { user.role && user.role === 'customer' && customerRoutes(checkAuthentication) }
+      { user.role && user.role === 'seller' && sellerRoutes(checkAuthentication) }
       <Route path="*" element={ <NotFound /> } />
     </Routes>
   );

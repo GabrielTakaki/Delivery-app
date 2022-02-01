@@ -17,14 +17,15 @@ function Header() {
     <HeaderComponent>
       <NavHeader>
         <SectionHeader>
-          <ButtonHeader
-            type="button"
-            data-testid="customer_products__element-navbar-link-products"
-            onClick={ () => navigate('/customer/products') }
+          {user.role === 'customer' && (
+            <ButtonHeader
+              type="button"
+              data-testid="customer_products__element-navbar-link-products"
+              onClick={ () => navigate('/customer/products') }
 
-          >
-            PRODUTOS
-          </ButtonHeader>
+            >
+              PRODUTOS
+            </ButtonHeader>)}
           <ButtonHeader
             type="button"
             data-testid="customer_products__element-navbar-link-orders"
