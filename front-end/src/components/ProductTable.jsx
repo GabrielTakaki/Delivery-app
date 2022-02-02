@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { string, number, arrayOf } from 'prop-types';
 import { Table, TbodyTable, TrTable, MainTable, TotalTable, TdTable, ThTable }
   from '../styles/table';
-import { Customer } from '../context';
+import { Global, Seller, Customer } from '../context';
 
 function ProductTable({
   dataIdItem,
@@ -11,11 +11,12 @@ function ProductTable({
   displayTotal,
   displayRemove,
 }) {
+  const { user } = useContext(Global.Context);
   const {
     setDirectQuantityOfCartItem,
     totalOfShoppingCart,
     saleDetailsId,
-  } = useContext(Customer.Context);
+  } = useContext(user.role === 'customer' ? Customer.Context : Seller.Context);
   return (
     <MainTable>
       <Table>
@@ -37,35 +38,35 @@ function ProductTable({
               <TrTable key={ product.id }>
                 <TdTable
                   data-testid={
-                    `customer_${dataIdItem}__element-order-table-item-number-${index}`
+                    `${user.role}_${dataIdItem}__element-order-table-item-number-${index}`
                   }
                 >
                   { index + 1 }
                 </TdTable>
                 <TdTable
                   data-testid={
-                    `customer_${dataIdItem}__element-order-table-name-${index}`
+                    `${user.role}_${dataIdItem}__element-order-table-name-${index}`
                   }
                 >
                   { product.name }
                 </TdTable>
                 <TdTable
                   data-testid={
-                    `customer_${dataIdItem}__element-order-table-quantity-${index}`
+                    `${user.role}_${dataIdItem}__element-order-table-quantity-${index}`
                   }
                 >
                   { product.quantity }
                 </TdTable>
                 <TdTable
                   data-testid={
-                    `customer_${dataIdItem}__element-order-table-unit-price-${index}`
+                    `${user.role}_${dataIdItem}__element-order-table-unit-price-${index}`
                   }
                 >
                   { `R$${product.price.replace('.', ',')}` }
                 </TdTable>
                 <TdTable
                   data-testid={
-                    `customer_${dataIdItem}__element-order-table-sub-total-${index}`
+                    `${user.role}_${dataIdItem}__element-order-table-sub-total-${index}`
                   }
                 >
                   { `R$ ${product.subTotal.toFixed(2).replace('.', ',')}` }
@@ -75,7 +76,7 @@ function ProductTable({
                     <TdTable
                       onClick={ () => setDirectQuantityOfCartItem(product, 0) }
                       data-testid={
-                        `customer_${dataIdItem}__element-order-table-remove-${index}`
+                        `${user.role}_${dataIdItem}__element-order-table-remove-${index}`
                       }
                     >
                       { remove }
@@ -89,14 +90,18 @@ function ProductTable({
       </Table>
       {
         displayTotal && totalOfShoppingCart > 0 ? (
-          <TotalTable data-testid={ `customer_${dataIdItem}__element-order-total-price` }>
+          <TotalTable
+            data-testid={ `${user.role}_${dataIdItem}__element-order-total-price` }
+          >
             { `Total: R$ ${totalOfShoppingCart.toFixed(2).toString().replace('.', ',')}` }
           </TotalTable>
         ) : saleDetailsId && (
-          <TotalTable data-testid={ `customer_${dataIdItem}__element-order-total-price` }>
+          <TotalTable
+            data-testid={ `${user.role}_${dataIdItem}__element-order-total-price` }
+          >
             {
               `Total: R$
-              ${saleDetailsId.totalPrice}`
+              ${saleDetailsId.totalPrice && saleDetailsId.totalPrice.replace('.', ',')}`
             }
           </TotalTable>
         )

@@ -2,6 +2,10 @@ import React, { createContext, useState } from 'react';
 import axios from 'axios';
 import { node } from 'prop-types';
 
+import {
+  putSaleUpdateStatus,
+} from '../services/api';
+
 export const Context = createContext();
 
 function Provider({ children }) {
@@ -9,23 +13,27 @@ function Provider({ children }) {
     seller: {
       listSeller: 'http://localhost:3001/user/seller/list',
       list: 'http://localhost:3001/sale/list',
+      listId: 'http://localhost:3001/sale/',
+      update: 'http://localhost:3001/sale/update/1',
     },
   };
   const [seller, setSeller] = useState([]);
-  const [sale, setSale] = useState([]);
+  const [saleDetailsId, setSale] = useState();
+  const [salesList, setSalesList] = useState([]);
 
-  const getSale = () => {
+  const [getSale] = useState(() => () => {
     const token = JSON.parse(localStorage.getItem('token'));
     axios
       .get(endpoints.seller.list, { headers: { Authorization: token } })
-      .then((res) => setSale(res.data)).catch((err) => console.log(err));
-  };
+      .then((res) => setSalesList(res.data)).catch((err) => console.log(err));
+  });
 
-  const getSaleById = async (id) => {
-    const token = localStorage.getItem('token');
-    axios
-      .get(`${endpoints.seller.listId}${id}`, { headers: { Authorization: token } })
-      .then((res) => setSale(res.data)).catch((err) => console.log(err));
+  const [getSaleById] = useState(() => async (token, id) => axios
+    .get(`${endpoints.seller.listId}${id}`, { headers: { Authorization: token } })
+    .then((res) => setSale(res.data)).catch((err) => console.log(err)));
+
+  const updateSaleStatus = async (token, id) => {
+    await putSaleUpdateStatus(token, id);
   };
 
   return (
@@ -35,9 +43,11 @@ function Provider({ children }) {
         seller,
         setSeller,
         getSale,
-        sale,
+        saleDetailsId,
         setSale,
         getSaleById,
+        salesList,
+        updateSaleStatus,
       } }
     >
       {children}

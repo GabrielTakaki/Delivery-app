@@ -67,10 +67,10 @@ const sellerRoutes = (checker) => {
         }
       />
       <Route
-        path="/customer/fdsfsad"
+        path="/seller/orders/:id"
         element={
           <Seller.Provider>
-            <sellerPages.Orders />
+            <sellerPages.OrderDetails />
           </Seller.Provider>
         }
       />
@@ -95,7 +95,10 @@ function App() {
       />
       { user.role && user.role === 'customer' && customerRoutes(checkAuthentication) }
       { user.role && user.role === 'seller' && sellerRoutes(checkAuthentication) }
-      <Route path="*" element={ <NotFound /> } />
+      {
+        user.role ? <Route path="*" element={ <NotFound /> } />
+          : <Route path="*" element={ <Navigate replace to="/login" /> } />
+      }
     </Routes>
   );
 }

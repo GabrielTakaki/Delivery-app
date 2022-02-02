@@ -6,14 +6,15 @@ import OrderDetailsCard from '../../components/OrderDetailsCard';
 import ProductTable from '../../components/ProductTable';
 
 function OrderDetails() {
-  const { authToken } = useContext(Global.Context);
+  const { authToken, updateSaleStatus } = useContext(Global.Context);
   const {
     getSale,
     getSaleById,
     saleDetailsId,
     paramId,
     sellersList,
-    getSellers } = useContext(Customer.Context);
+    getSellers,
+  } = useContext(Customer.Context);
 
   useEffect(() => {
     const fetchSales = async () => {
@@ -23,6 +24,21 @@ function OrderDetails() {
     };
     fetchSales();
   }, [getSellers, getSale, getSaleById, authToken, paramId]);
+
+  const handleDeliveryCheck = async () => {
+    await updateSaleStatus(authToken, paramId);
+    await getSaleById(authToken, paramId);
+  };
+
+  const buttons = [
+
+    {
+      message: 'MARCAR COMO ENTREGUE',
+      dataTestId: 'customer_order_details__button-delivery-check',
+      disabledCondition: saleDetailsId && saleDetailsId.status !== 'Em Trânsito',
+      handler: handleDeliveryCheck,
+    },
+  ];
 
   const subTotal = saleDetailsId.products && saleDetailsId.products
     .map((item) => ({
@@ -38,12 +54,12 @@ function OrderDetails() {
       {
         saleDetailsId && sellersList.length > 0 ? (
           <OrderDetailsCard
+            userRole="customer"
             orderNumber={ saleDetailsId.id }
             seller={ sellersList[0].name }
             date={ moment(saleDetailsId.sale_date).format('DD/MM/YYYY') }
             status={ saleDetailsId.status }
-            markAsDelivered="MARCAR COMO ENTREGUE"
-            disabled={ saleDetailsId.status === 'Pendente' }
+            buttons={ buttons }
           />
         ) : 'Nada encontrado'
       }

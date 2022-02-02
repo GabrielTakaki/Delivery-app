@@ -4,7 +4,7 @@ import OrderCard from '../../components/OrderCard';
 import { Seller } from '../../context';
 
 function Orders() {
-  const { sale, getSale } = useContext(Seller.Context);
+  const { salesList, getSale } = useContext(Seller.Context);
 
   useEffect(() => {
     getSale();
@@ -14,7 +14,7 @@ function Orders() {
     <>
       <Header />
       {
-        sale.map(({
+        salesList.map(({
           id,
           status,
           totalPrice,

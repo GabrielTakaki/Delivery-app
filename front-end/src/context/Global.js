@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 
+import { putSaleUpdateStatus } from '../services/api';
+
 export const Context = createContext();
 
 const initialRoutes = {
@@ -51,7 +53,6 @@ export function Provider({ children }) {
 
   const exit = () => {
     localStorage.clear();
-    console.log('exit');
     setUserOnContext({ name: '', email: '', role: '' });
     setAuthTokenOnContext('');
     navigate('/login');
@@ -61,11 +62,12 @@ export function Provider({ children }) {
     if (authToken) {
       const { exp } = jwt.decode(authToken);
       const mult = 1000;
-      console.log(exp);
 
       if (!exp || (exp * mult) <= Date.now()) exit();
     } else if (!user.role) exit();
   };
+
+  const updateSaleStatus = async (token, id) => putSaleUpdateStatus(token, id);
 
   return (
     <Context.Provider
@@ -77,6 +79,7 @@ export function Provider({ children }) {
         exit,
         initialRoutes,
         checkAuthentication,
+        updateSaleStatus,
       } }
     >
       { children }

@@ -1,43 +1,63 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, arrayOf, object } from 'prop-types';
 import { Section, Span, Button } from '../styles/orderDetailsCard';
+import StatusBar from '../styles/statusBar';
 
 function OrderDetailsCard({
-  orderNumber, seller, date, status, markAsDelivered, disabled }) {
+  userRole, orderNumber, seller, date, status, buttons }) {
   return (
     <Section>
-      <Span data-testid="customer_order_details__element-order-details-label-order-id">
+      <Span
+        data-testid={
+          `${userRole}_order_details__element-order-details-label-order-id`
+        }
+      >
         { `Pedido ${orderNumber};` }
       </Span>
-      <Span data-testid="customer_order_details__element-order-details-label-seller-name">
-        { `P. Vend: ${seller}` }
-      </Span>
-      <Span data-testid="customer_order_details__element-order-details-label-order-date">
+      { userRole === 'customer' && (
+        <Span
+          data-testid="customer_order_details__element-order-details-label-seller-name"
+        >
+          { `P. Vend: ${seller}` }
+        </Span>)}
+      <Span
+        data-testid={
+          `${userRole}_order_details__element-order-details-label-order-date`
+        }
+      >
         { date }
       </Span>
-      <Span
-        data-testid="customer_order_details__element-order-details-label-delivery-status"
+      <StatusBar
+        data-testid={
+          `${userRole}_order_details__element-order-details-label-delivery-status`
+        }
+        status={ status }
+        width="10%"
       >
         { status }
-      </Span>
-      <Button
-        type="button"
-        data-testid="customer_order_details__button-delivery-check"
-        disabled={ disabled }
-      >
-        { markAsDelivered }
-      </Button>
+      </StatusBar>
+      { buttons.map(({ message, dataTestId, disabledCondition, handler }, index) => (
+        <Button
+          type="button"
+          data-testid={ dataTestId }
+          disabled={ disabledCondition }
+          onClick={ handler }
+          key={ index }
+        >
+          { message }
+        </Button>
+      )) }
     </Section>
   );
 }
 
 OrderDetailsCard.propTypes = {
+  userRole: string,
   orderNumber: string,
   seller: string,
   status: string,
   date: string,
-  markAsDelivered: string,
-  disabled: string,
+  buttons: arrayOf(object),
 }.isRequired;
 
 export default OrderDetailsCard;

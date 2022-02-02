@@ -7,7 +7,7 @@ const port = process.env.PORT || 3001;
 const io = socketIo(socketIoServer, {
     cors: {
         origin: `http://localhost:${port}`,
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', 'PUT'],
     },
 });
 

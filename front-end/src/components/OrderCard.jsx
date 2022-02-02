@@ -4,8 +4,8 @@ import { number, string } from 'prop-types';
 import moment from 'moment';
 import {
   OrderCardContainer,
-  Status,
 } from '../styles/orderCard';
+import StatusBar from '../styles/statusBar';
 
 function OrderCard({
   entity,
@@ -21,12 +21,13 @@ function OrderCard({
     <OrderCardContainer onClick={ () => navigate(`/${entity}/orders/${id}`) }>
       <span>Pedido</span>
       <span data-testid={ `${entity}_orders__element-order-id-${id}` }>{ id }</span>
-      <Status
+      <StatusBar
         data-testid={ `${entity}_orders__element-delivery-status-${id}` }
         status={ status }
+        width="100%"
       >
         { status }
-      </Status>
+      </StatusBar>
       <span
         data-testid={ `${entity}_orders__element-order-date-${id}` }
       >

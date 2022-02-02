@@ -8,4 +8,5 @@ export const PRODUCT_LIST = 'http://localhost:3001/product/list';
 
 export const SALE_CREATE = 'http://localhost:3001/sale/create';
 export const SALE_LIST = 'http://localhost:3001/sale/list';
+export const SALE_UPDATE_STATUS = 'http://localhost:3001/sale/update/';
 // export const SALE_BY_ID = (id) => `http://localhost:3001/sale/${id}`;
