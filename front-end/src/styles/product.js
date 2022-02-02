@@ -98,8 +98,8 @@ export const ButtonCart = styled.button`
   padding: 10px;
   background-color: #fff;
   border: 1px solid green;
-  cursor: pointer;
   &:hover {
     transform: scale(1.1);
   }
+  cursor: pointer;
 `;
