@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import ProductCard from '../../components/ProductCard';
-import ContainerProducts from '../../styles/mainProducts';
+import { ContainerProducts, ContainerCard, ButtonCart } from '../../styles/product';
 
 import { Global, Customer } from '../../context';
 
@@ -33,7 +33,7 @@ function ProductsClient() {
     <ContainerProducts>
       <Header />
       <div>
-        <button
+        <ButtonCart
           type="button"
           data-testid="customer_products__button-cart"
           onClick={ () => navigate('/customer/checkout') }
@@ -45,13 +45,15 @@ function ProductsClient() {
             { `Ver carrinho: R$${totalOfShoppingCart
               .toFixed(2).toString().replace('.', ',')}` }
           </span>
-        </button>
+        </ButtonCart>
         <h1>Produtos</h1>
-        {
-          loading ? <span>Nenhum produto</span> : products.map((product, index) => (
-            <ProductCard key={ index } product={ product } />
-          ))
-        }
+        <ContainerCard>
+          {
+            loading ? <span>Nenhum produto</span> : products.map((product, index) => (
+              <ProductCard key={ index } product={ product } />
+            ))
+          }
+        </ContainerCard>
       </div>
     </ContainerProducts>
   );

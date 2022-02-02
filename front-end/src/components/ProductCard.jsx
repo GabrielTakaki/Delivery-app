@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { ContainerCard } from '../styles/productCard';
+import { Card, CardImage, CardName, CardInput, CardButton, CardPrice }
+  from '../styles/product';
 import { Customer } from '../context';
 
 /* Gera card do produto */
@@ -30,32 +31,32 @@ function ProductCard({ product }) {
   }, [product, setQuantity, shoppingCart]);
 
   return (
-    <ContainerCard>
-      <section data-testid={ `customer_products__element-card-price-${id}` }>
+    <Card>
+      <CardPrice data-testid={ `customer_products__element-card-price-${id}` }>
         { price.replace('.', ',') }
-      </section>
+      </CardPrice>
       <section>
-        <img
+        <CardImage
           src={ urlImage }
           alt={ name }
           data-testid={ `customer_products__img-card-bg-image-${id}` }
-          width={ 50 }
+          width={ 70 }
         />
       </section>
       <section>
-        <h1 data-testid={ `customer_products__element-card-title-${id}` }>
+        <CardName data-testid={ `customer_products__element-card-title-${id}` }>
           { name }
-        </h1>
+        </CardName>
       </section>
       <section>
-        <button
+        <CardButton
           type="button"
           data-testid={ `customer_products__button-card-rm-item-${id}` }
           onClick={ () => decreaseItemQuantityInShoppingCart(product) }
         >
           -
-        </button>
-        <input
+        </CardButton>
+        <CardInput
           type="number"
           name={ `product-${id}` }
           min={ 0 }
@@ -64,15 +65,15 @@ function ProductCard({ product }) {
           data-testid={ `customer_products__input-card-quantity-${id}` }
           onChange={ handleChange }
         />
-        <button
+        <CardButton
           type="button"
           data-testid={ `customer_products__button-card-add-item-${id}` }
           onClick={ () => increaseItemQuantityInShoppingCart(product) }
         >
           +
-        </button>
+        </CardButton>
       </section>
-    </ContainerCard>
+    </Card>
   );
 }
 

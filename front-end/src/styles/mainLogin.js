@@ -18,6 +18,7 @@ export const MainLogin = styled.main`
   border: 1px solid green;
   font-size: calc(0.6em + 0.6vw);
   align-items: center;
+  background-color: #fff;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   padding: 80px 0;
 `;
