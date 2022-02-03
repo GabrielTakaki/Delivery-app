@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react';
 import axios from 'axios';
 import { node } from 'prop-types';
+import { io } from 'socket.io-client';
 
 import {
   putSaleUpdateStatus,
@@ -35,6 +36,15 @@ function Provider({ children }) {
   const updateSaleStatus = async (token, id) => {
     await putSaleUpdateStatus(token, id);
   };
+
+  const [socket] = useState(() => io('http://localhost:3001'));
+
+  useState(() => socket
+    .on('statusUpdate', async (payload) => {
+      const token = JSON.parse(localStorage.getItem('token'));
+      await getSale(token);
+      await getSaleById(token, payload.saleId);
+    }));
 
   return (
     <Context.Provider

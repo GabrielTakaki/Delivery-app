@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { node } from 'prop-types';
 import axios from 'axios';
+import { io } from 'socket.io-client';
+
 import {
   getProductsList,
   postSaleCreate,
@@ -139,6 +141,15 @@ export function Provider({ children }) {
 
     setOrders(data);
   });
+
+  const [socket] = useState(() => io('http://localhost:3001'));
+
+  useState(() => socket
+    .on('statusUpdate', async (payload) => {
+      const token = JSON.parse(localStorage.getItem('token'));
+      await getSaleById(token, payload.saleId);
+      await getOrders(token);
+    }));
 
   // Get url last param to get the sale id
   const paramId = window

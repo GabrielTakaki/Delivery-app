@@ -37,6 +37,5 @@ module.exports = async ({ saleId, role, email }) => {
     const { status } = await sale.findByPk(saleId);
     const newStatus = nextStatus(status, role);
     await sale.update({ status: newStatus }, { where: { id: saleId } });
-    const updatedSale = await sale.findByPk(saleId, { raw: true });
-    socket.emit('updateStatus', { saleId: updatedSale.id, newStatus: updatedSale.status });
+    socket.emit('updateStatus', { saleId });
 };
