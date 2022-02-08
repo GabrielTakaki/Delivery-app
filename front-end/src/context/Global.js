@@ -10,6 +10,7 @@ export const Context = createContext();
 const initialRoutes = {
   customer: '/customer/products',
   seller: '/seller/orders',
+  administrator: '/admin/manage',
 };
 
 /* Provider do Context */

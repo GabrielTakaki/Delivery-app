@@ -52,7 +52,7 @@ export const putSaleUpdateStatus = async (token, id) => axios.put(
 );
 
 // ADMIN
-export const getAdminUsersList = (token) => fetchWithToken('get', USER_LIST, token);
+export const getAdminUsersList = async (token) => fetchWithToken('get', USER_LIST, token);
 export const deleteUser = (token, body) => fetchWithTokenAndBody(
   'delete',
   USER_DELETE,

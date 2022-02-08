@@ -48,7 +48,7 @@ function LoginForm() {
         const { email, name, role } = Jwt.decode(token);
         setAuthTokenOnAll(token);
         setUser({ email, name, role, token });
-
+        console.log('role: ', role);
         const paths = {
           customer: '/customer/products',
           seller: '/seller/orders',

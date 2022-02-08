@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   SectionHeader,
   ButtonHeader,
@@ -9,29 +10,35 @@ import {
 
 import { Global } from '../context';
 
-function Header() {
+const showProducts = (hasProducts) => {
+  if (hasProducts === true) {
+    return (
+      <ButtonHeader
+        type="button"
+        data-testid="customer_products__element-navbar-link-products"
+        onClick={ () => navigate('/customer/products') }
+      >
+        PRODUTOS
+      </ButtonHeader>
+    );
+  }
+};
+
+function Header({ hasProducts, title }) {
   const { user, exit } = useContext(Global.Context);
   const navigate = useNavigate();
-
   return (
     <HeaderComponent>
       <NavHeader>
         <SectionHeader>
-          {user.role === 'customer' && (
-            <ButtonHeader
-              type="button"
-              data-testid="customer_products__element-navbar-link-products"
-              onClick={ () => navigate('/customer/products') }
-
-            >
-              PRODUTOS
-            </ButtonHeader>)}
+          { showProducts(hasProducts) }
           <ButtonHeader
             type="button"
             data-testid="customer_products__element-navbar-link-orders"
             onClick={ () => navigate(`/${user.role}/orders`) }
+            disabled={ title === 'GERENCIAR USUÁRIOS' }
           >
-            MEUS PEDIDOS
+            { title }
           </ButtonHeader>
         </SectionHeader>
         <SectionHeader>
@@ -52,5 +59,15 @@ function Header() {
     </HeaderComponent>
   );
 }
+
+Header.defaultProps = {
+  hasProducts: true,
+  title: 'MEUS PRODUTOS',
+};
+
+Header.propTypes = {
+  hasProducts: PropTypes.bool,
+  title: PropTypes.string,
+};
 
 export default Header;

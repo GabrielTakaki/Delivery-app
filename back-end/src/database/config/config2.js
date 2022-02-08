@@ -11,12 +11,12 @@ const suffix = {
 };
 
 const options = {
-  host: process.env.MYSQL_HOST || 'mysql',
-  port: process.env.MYSQL_PORT || '3306',
+  host: 'localhost',
+  port:  '3306',
   database: 
     `${process.env.MYSQL_DB_NAME || 'delivery-app'}${suffix[environment] || suffix.test}`,
-  username: process.env.MYSQL_USER || 'root',
-  password: process.env.MYSQL_PASSWORD || 'password',
+  username: 'root',
+  password: '123456',
   dialect: 'mysql',
   dialectOptions: {
     timezone: 'Z',
@@ -35,4 +35,3 @@ module.exports = {
     ...options,
   },
 };
-

@@ -5,11 +5,27 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/common/Login';
 import Register from './pages/common/Register';
 import NotFound from './pages/common/NotFound';
+import ManageUsers from './pages/admin/ManageUsers';
 
 import customerPages from './pages/customer';
 import sellerPages from './pages/seller';
 
-import { Global, Customer, Seller } from './context';
+import { Global, Customer, Seller, Admin } from './context';
+
+const adminRoutes = (checker) => {
+  if (checker) checker();
+  return (
+    <Route
+      exact
+      path="/admin/manage"
+      element={
+        <Admin.Provider>
+          <ManageUsers />
+        </Admin.Provider>
+      }
+    />
+  );
+};
 
 const customerRoutes = (checker) => {
   if (checker) checker();
@@ -21,6 +37,15 @@ const customerRoutes = (checker) => {
           <Customer.Provider>
             <customerPages.Products />
           </Customer.Provider>
+        }
+      />
+      <Route
+        exact
+        path="/admin/manage"
+        element={
+          <Admin.Provider>
+            <ManageUsers />
+          </Admin.Provider>
         }
       />
       <Route
@@ -95,6 +120,7 @@ function App() {
       />
       { user.role && user.role === 'customer' && customerRoutes(checkAuthentication) }
       { user.role && user.role === 'seller' && sellerRoutes(checkAuthentication) }
+      { user.role && user.role === 'administrator' && adminRoutes(checkAuthentication) }
       {
         user.role ? <Route path="*" element={ <NotFound /> } />
           : <Route path="*" element={ <Navigate replace to="/login" /> } />
